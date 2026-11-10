@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sunshine T Academy 🔆 — منصة التدريبات</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sun:#FBBF24;--sun2:#F59E0B;--sun3:#FCD34D;
+  --sky:#0EA5E9;--sky2:#0284C7;
+  --ok:#16A34A;--bad:#DC2626;--warn:#F59E0B;
+  --dark:#0F172A;--darker:#020617;
+  --bg:#FFFBEB;--surface:#FFFFFF;--text:#1E293B;--muted:#64748B;--border:#FDE68A;
+  --shadow:0 4px 20px rgba(251,191,36,.15);
+  --shadow-lg:0 15px 50px rgba(251,191,36,.25);
+}
+*{font-family:'Cairo',sans-serif;box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden;min-height:100vh;background-image:
+  radial-gradient(circle at 10% 10%,rgba(251,191,36,.12),transparent 40%),
+  radial-gradient(circle at 90% 90%,rgba(14,165,233,.1),transparent 40%);
+  background-attachment:fixed;
+}
+.screen{display:none;min-height:100vh;padding:20px;animation:fadeIn .5s ease}
+.screen.active{display:flex;flex-direction:column;align-items:center;justify-content:center}
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* ═════ Branding ═════ */
+.brand-logo{font-size:3.5rem;line-height:1;margin-bottom:8px;filter:drop-shadow(0 4px 12px rgba(251,191,36,.5));animation:sunPulse 3s ease-in-out infinite}
+@keyframes sunPulse{0%,100%{transform:scale(1) rotate(0deg)}50%{transform:scale(1.08) rotate(8deg)}}
+.brand-name{font-size:1.8rem;font-weight:900;background:linear-gradient(135deg,var(--sun2),var(--sky));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:1px}
+.brand-slogan{font-size:1rem;color:var(--muted);font-weight:700;margin-top:4px;letter-spacing:2px}
+.brand-slogan::before,.brand-slogan::after{content:'✨';margin:0 8px;font-size:.9rem}
+
+/* ═════ Welcome Screen ═════ */
+.welcome-box{background:var(--surface);border-radius:28px;padding:48px 40px;max-width:540px;width:100%;box-shadow:var(--shadow-lg);border:3px solid var(--sun3);position:relative;text-align:center}
+.welcome-box::before{content:'';position:absolute;top:-15px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--sun),var(--sun2));color:white;padding:6px 24px;border-radius:20px;font-weight:900;font-size:.85rem;letter-spacing:1px;box-shadow:0 4px 15px rgba(251,191,36,.4)}
+.welcome-title{font-size:1.6rem;font-weight:900;color:var(--text);margin-bottom:8px;margin-top:12px}
+.welcome-sub{color:var(--muted);font-size:.95rem;margin-bottom:28px}
+.input-group{text-align:right;margin-bottom:20px}
+.input-group label{display:block;font-weight:800;margin-bottom:8px;color:var(--text);font-size:.95rem}
+.input-group input{width:100%;padding:16px 20px;border:2px solid var(--border);border-radius:16px;font-size:1.05rem;font-family:'Cairo';background:var(--bg);color:var(--text);transition:.2s;font-weight:700}
+.input-group input:focus{outline:none;border-color:var(--sun);background:white;box-shadow:0 0 0 4px rgba(251,191,36,.2)}
+.btn{border:none;cursor:pointer;border-radius:16px;padding:16px 32px;font-size:1.05rem;font-weight:900;font-family:'Cairo';transition:.25s;display:inline-flex;align-items:center;gap:10px;justify-content:center}
+.btn:hover:not(:disabled){transform:translateY(-3px)}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none!important}
+.btn-primary{background:linear-gradient(135deg,var(--sun),var(--sun2));color:var(--dark);box-shadow:0 8px 24px rgba(251,191,36,.4);width:100%}
+.btn-primary:hover:not(:disabled){box-shadow:0 12px 32px rgba(251,191,36,.55)}
+.btn-sky{background:linear-gradient(135deg,var(--sky),var(--sky2));color:white;box-shadow:0 8px 24px rgba(14,165,233,.4)}
+.btn-ghost{background:transparent;color:var(--muted);border:2px solid var(--border)}
+.btn-ghost:hover:not(:disabled){border-color:var(--sun);color:var(--text)}
+
+/* ═════ Lessons Screen ═════ */
+.lessons-container{max-width:1200px;width:100%;padding:20px}
+.lessons-header{text-align:center;margin-bottom:36px}
+.lessons-header h2{font-size:2rem;font-weight:900;color:var(--text);margin-bottom:8px}
+.lessons-header p{color:var(--muted);font-size:1rem}
+.lessons-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px}
+@media(max-width:600px){.lessons-grid{grid-template-columns:1fr}}
+.lesson-card{background:var(--surface);border-radius:20px;padding:24px 20px;border:2px solid var(--border);cursor:pointer;transition:.3s;position:relative;overflow:hidden;text-align:center}
+.lesson-card::before{content:'';position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,var(--sun),var(--sky));transform:scaleX(0);transform-origin:right;transition:transform .3s}
+.lesson-card:hover{border-color:var(--sun);transform:translateY(-6px);box-shadow:var(--shadow-lg)}
+.lesson-card:hover::before{transform:scaleX(1)}
+.lesson-num{display:inline-block;background:linear-gradient(135deg,var(--sun),var(--sun2));color:var(--dark);font-weight:900;font-size:.75rem;padding:4px 14px;border-radius:20px;margin-bottom:12px;letter-spacing:1px}
+.lesson-icon{font-size:2.8rem;margin-bottom:12px;display:block}
+.lesson-title{font-weight:900;font-size:1rem;color:var(--text);margin-bottom:6px;line-height:1.4}
+.lesson-meta{font-size:.8rem;color:var(--muted);font-weight:700}
+
+/* ═════ Quiz Screen ═════ */
+.quiz-container{max-width:820px;width:100%;padding:16px}
+.quiz-header{background:var(--surface);border-radius:20px;padding:16px 22px;margin-bottom:20px;box-shadow:var(--shadow);border:2px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.quiz-header-left{display:flex;align-items:center;gap:14px}
+.quiz-header .student-badge{background:linear-gradient(135deg,var(--sun),var(--sun2));color:var(--dark);padding:6px 14px;border-radius:12px;font-weight:900;font-size:.85rem}
+.quiz-header .lesson-badge{background:var(--sky);color:white;padding:6px 14px;border-radius:12px;font-weight:900;font-size:.85rem}
+.quiz-header .progress-badge{background:var(--bg);padding:6px 14px;border-radius:12px;font-weight:900;font-size:.85rem;color:var(--text);border:2px solid var(--border);font-family:'Share Tech Mono'}
+.progress-bar{height:8px;background:var(--border);border-radius:20px;overflow:hidden;margin-bottom:24px}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--sun),var(--sun2),var(--sky));border-radius:20px;transition:width .4s ease;width:0}
+
+.question-card{background:var(--surface);border-radius:24px;padding:32px 28px;box-shadow:var(--shadow);border:2px solid var(--border);margin-bottom:20px;animation:qSlide .4s ease}
+@keyframes qSlide{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
+.q-num{display:inline-block;background:linear-gradient(135deg,var(--sky),var(--sky2));color:white;width:44px;height:44px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:900;font-size:1.1rem;margin-bottom:16px}
+.q-topic{display:inline-block;background:var(--bg);color:var(--sun2);font-size:.75rem;font-weight:900;padding:4px 12px;border-radius:20px;margin-right:10px;margin-bottom:16px;border:1px solid var(--border)}
+.q-text{font-size:1.15rem;font-weight:800;color:var(--text);margin-bottom:24px;line-height:1.6}
+.options{display:flex;flex-direction:column;gap:12px}
+.option{background:var(--bg);border:2px solid var(--border);border-radius:16px;padding:16px 18px;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:14px;font-weight:700;color:var(--text);text-align:right}
+.option:hover{border-color:var(--sun);background:white;transform:translateX(-4px)}
+.option.selected{background:linear-gradient(135deg,rgba(251,191,36,.15),rgba(14,165,233,.08));border-color:var(--sun);box-shadow:0 4px 12px rgba(251,191,36,.2)}
+.option-letter{background:white;color:var(--text);width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;flex-shrink:0;border:2px solid var(--border);transition:.2s}
+.option.selected .option-letter{background:linear-gradient(135deg,var(--sun),var(--sun2));color:var(--dark);border-color:transparent}
+
+.quiz-nav{display:flex;gap:12px;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.quiz-nav .btn{flex:1;min-width:120px}
+
+/* ═════ Results Screen ═════ */
+.results-container{max-width:900px;width:100%;padding:16px}
+.result-hero{background:linear-gradient(135deg,var(--sun2),var(--sun),var(--sky));color:var(--dark);border-radius:28px;padding:36px 28px;text-align:center;margin-bottom:24px;box-shadow:var(--shadow-lg);position:relative;overflow:hidden}
+.result-hero::before{content:'🔆';position:absolute;top:-30px;right:-30px;font-size:10rem;opacity:.15;transform:rotate(-15deg)}
+.result-hero::after{content:'🌤️';position:absolute;bottom:-30px;left:-30px;font-size:8rem;opacity:.15}
+.result-hero-inner{position:relative;z-index:2}
+.result-student{font-size:1.1rem;font-weight:900;margin-bottom:4px;opacity:.9}
+.result-lesson{font-size:.9rem;font-weight:800;margin-bottom:20px;opacity:.85}
+.score-ring{width:160px;height:160px;margin:20px auto;background:white;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 0 0 8px rgba(255,255,255,.35),0 15px 40px rgba(0,0,0,.15);position:relative}
+.score-ring::before{content:'';position:absolute;inset:-16px;border:4px dashed rgba(255,255,255,.5);border-radius:50%;animation:spin 20s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.score-num{font-size:3rem;font-weight:900;color:var(--dark);line-height:1}
+.score-total{font-size:.9rem;font-weight:800;color:var(--muted);margin-top:4px}
+.result-grade{font-size:1.4rem;font-weight:900;margin-top:12px}
+.result-stats{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px;position:relative;z-index:2}
+.stat-badge{background:rgba(255,255,255,.85);backdrop-filter:blur(8px);padding:10px 20px;border-radius:14px;font-weight:900;font-size:.9rem;box-shadow:0 4px 12px rgba(0,0,0,.1);display:flex;align-items:center;gap:8px}
+.stat-badge.ok{color:var(--ok)}
+.stat-badge.bad{color:var(--bad)}
+.stat-badge.none{color:var(--muted)}
+
+.review-header{text-align:center;margin:32px 0 20px}
+.review-header h2{font-size:1.6rem;font-weight:900;color:var(--text);margin-bottom:6px}
+.review-header p{color:var(--muted);font-size:.95rem}
+
+.review-list{display:flex;flex-direction:column;gap:16px;margin-bottom:24px}
+.review-card{background:var(--surface);border-radius:18px;padding:22px 20px;box-shadow:var(--shadow);border:2px solid var(--border);border-right:6px solid var(--muted)}
+.review-card.ok{border-right-color:var(--ok)}
+.review-card.bad{border-right-color:var(--bad)}
+.review-card.none{border-right-color:var(--muted)}
+.review-q-head{display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+.review-q-num{background:var(--bg);color:var(--text);font-weight:900;padding:4px 12px;border-radius:20px;font-size:.85rem;border:2px solid var(--border)}
+.review-q-topic{background:var(--bg);color:var(--sun2);font-weight:900;padding:4px 12px;border-radius:20px;font-size:.75rem;border:1px solid var(--border)}
+.review-badge{margin-right:auto;padding:4px 12px;border-radius:20px;font-size:.8rem;font-weight:900}
+.review-badge.ok{background:#DCFCE7;color:#166534}
+.review-badge.bad{background:#FEE2E2;color:#991B1B}
+.review-badge.none{background:#E2E8F0;color:#475569}
+.review-q-text{font-weight:800;font-size:1rem;color:var(--text);margin-bottom:12px;line-height:1.6}
+.review-opt{padding:10px 14px;border-radius:10px;margin-bottom:6px;border:2px solid var(--border);background:var(--bg);font-size:.9rem;font-weight:700}
+.review-opt.correct{background:#DCFCE7;border-color:var(--ok);color:#166534}
+.review-opt.wrong{background:#FEE2E2;border-color:var(--bad);color:#991B1B}
+.review-explanation{margin-top:12px;padding:14px 16px;background:linear-gradient(135deg,rgba(251,191,36,.1),rgba(14,165,233,.08));border-radius:12px;border-right:4px solid var(--sun2);font-size:.9rem;color:var(--text);line-height:1.7}
+.review-explanation b{color:var(--sun2);font-weight:900}
+
+.result-actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:40px}
+
+@media(max-width:600px){
+  .welcome-box{padding:36px 24px}
+  .brand-logo{font-size:2.8rem}
+  .brand-name{font-size:1.5rem}
+  .question-card{padding:24px 20px}
+  .q-text{font-size:1.05rem}
+  .option{padding:14px}
+  .score-ring{width:130px;height:130px}
+  .score-num{font-size:2.5rem}
+}
+@media print{
+  .no-print{display:none!important}
+  body{background:white}
+  .screen{padding:0}
+  .review-card{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<!-- ═════ 1. Welcome ═════ -->
+<div class="screen active" id="screen-welcome">
+  <div class="welcome-box">
+    <div class="brand-logo">🔆</div>
+    <div class="brand-name">Sunshine T Academy</div>
+    <div class="brand-slogan">بنحول الحلم لكود</div>
+    <h1 class="welcome-title" style="margin-top:32px">أهلاً بك في منصة التدريبات</h1>
+    <p class="welcome-sub">المستوى الثالث — ESP32 & IoT<br>اختبر نفسك في كل محاضرة بـ 30 سؤالاً</p>
+    <div class="input-group">
+      <label>👤 اسم الطالب</label>
+      <input type="text" id="studentName" placeholder="اكتب اسمك الكامل" autocomplete="off">
+    </div>
+    <button class="btn btn-primary" onclick="goToLessons()">
+      <span>ابدأ الآن</span>
+      <span style="font-size:1.3rem">→</span>
+    </button>
+    <div style="text-align:center;margin-top:20px;font-size:.8rem;color:var(--muted)">
+      15 محاضرة • 30 سؤالاً لكل محاضرة • 450 سؤالاً إجمالاً
+    </div>
+  </div>
+</div>
+
+<!-- ═════ 2. Lessons Selection ═════ -->
+<div class="screen" id="screen-lessons">
+  <div class="lessons-container">
+    <div class="lessons-header">
+      <div class="brand-logo" style="font-size:2.5rem">🔆</div>
+      <h2>اختر المحاضرة</h2>
+      <p>أهلاً <b id="lessonsStudentName" style="color:var(--sun2)"></b> — اختر أي محاضرة لبدء التدريب</p>
+    </div>
+    <div class="lessons-grid" id="lessonsGrid"></div>
+  </div>
+</div>
+
+<!-- ═════ 3. Quiz ═════ -->
+<div class="screen" id="screen-quiz" style="justify-content:flex-start;padding-top:20px">
+  <div class="quiz-container">
+    <div class="quiz-header">
+      <div class="quiz-header-left">
+        <span class="student-badge" id="quizStudentName">👤</span>
+        <span class="lesson-badge" id="quizLessonName">📚</span>
+      </div>
+      <div class="progress-badge" id="quizProgress">1 / 30</div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="quizProgressFill"></div></div>
+    <div id="questionArea"></div>
+    <div class="quiz-nav">
+      <button class="btn btn-ghost" id="prevBtn" onclick="prevQuestion()" disabled>→ السابق</button>
+      <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()" style="max-width:240px">التالي ←</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═════ 4. Results ═════ -->
+<div class="screen" id="screen-results" style="justify-content:flex-start;padding-top:20px">
+  <div class="results-container" id="resultsContainer"></div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════
+   SUNSHINE T ACADEMY — QUESTION BANK
+   Format: [question, [4 options], correctIndex, explanation]
+   ═══════════════════════════════════════════════════ */
+
+const LESSONS = [
+{
+  id: 1, title: "لقاء العملاق ESP32", icon: "🚀", short: "ESP32 + رادار الشبكات",
+  qs: [
+    ["ماذا يعني اختصار ESP32؟", ["Espressif Systems Platform 32-bit","Electronic Signal Processor 32","Embedded Smart Processor 320","External Signal Port 32"], 0, "ESP32 هو اسم الشريحة من شركة Espressif Systems بمعمارية 32-bit."],
+    ["كم نواة (Core) في معالج ESP32؟", ["1","2 (Dual-Core)","4","8"], 1, "ESP32 له نواتان: Core 0 و Core 1 — يمكنهما تنفيذ مهام متوازية."],
+    ["سرعة معالج ESP32 هي:", ["16 MHz","80 MHz","240 MHz","1000 MHz"], 2, "ESP32 يعمل بسرعة 240 MHz — أسرع 15 ضعفاً من Arduino UNO (16 MHz)."],
+    ["ذاكرة RAM في ESP32 تساوي:", ["2 KB","32 KB","100 KB","520 KB"], 3, "ESP32 لديه 520 KB RAM — أي أكبر 260 ضعفاً من UNO (2 KB)."],
+    ["الجهد المنطقي الذي يعمل به ESP32:", ["5V","3.3V","1.8V","12V"], 1, "ESP32 يعمل بـ 3.3V — لا تدخل 5V على أي GPIO وإلا يحترق!"],
+    ["هل ESP32 يحتوي WiFi مدمج؟", ["نعم مدمج في الشريحة","لا يحتاج وحدة خارجية","نعم لكن يحتاج راوتر خارجي","لا يوجد WiFi"], 0, "WiFi و Bluetooth مدمجان داخل الشريحة نفسها — لا حاجة لوحدات خارجية."],
+    ["ما معنى Dual-Core في ESP32؟", ["معالجان يعملان بالتوازي","ذاكرتان","شاشتان","بطاريتان"], 0, "Dual-Core = نواتان مستقلتان يمكنهما تنفيذ مهام مختلفة في نفس الوقت."],
+    ["أي مجموعة ADC تعمل مع WiFi دون تعارض؟", ["ADC1 (GPIO 32-39)","ADC2","كلتاهما","لا يعمل أي ADC"], 0, "ADC1 آمنة للاستخدام مع WiFi. ADC2 تتعارض مع WiFi وتفشل القراءات."],
+    ["ما الدالة التي تمسح شبكات WiFi القريبة؟", ["WiFi.find()","WiFi.scanNetworks()","WiFi.list()","WiFi.search()"], 1, "scanNetworks() ترجع عدد الشبكات المكتشفة ويمكن قراءة أسمائها وقوتها."],
+    ["قيمة RSSI الأقوى هي:", ["-100 dBm","-85 dBm","-35 dBm (الأقرب للصفر)","0 dBm"], 2, "RSSI قيمة سالبة — كلما اقتربت من الصفر كانت الإشارة أقوى (الأفضل -30 إلى -50)."],
+    ["ما الذي تعنيه كلمة Strapping Pins؟", ["أطراف عادية","أطراف تُستخدم عند الإقلاع — تجنبها كمدخلات","أطراف للطاقة فقط","أطراف للشاشة"], 1, "Strapping Pins مثل GPIO 0, 2, 12, 15 تُستخدم عند boot — لا تستخدمها كمدخلات."],
+    ["ما وظيفة زر BOOT في ESP32؟", ["إعادة التشغيل","الدخول لوضع البرمجة","إطفاء الجهاز","تشغيل WiFi"], 1, "BOOT يُستخدم للدخول لوضع تحميل الكود — مفيد لو فشل الرفع التلقائي."],
+    ["أي طرف GPIO يستخدم عادة للـ LED المدمج في ESP32؟", ["GPIO 13","GPIO 5","GPIO 2","GPIO 34"], 2, "GPIO 2 هو الطرف المتصل بالـ LED المدمج (أزرق عادة) في معظم لوحات ESP32."],
+    ["ما الفرق الأهم بين ESP32 و Arduino UNO؟", ["ESP32 به WiFi + BLE مدمجان + Dual-Core","ESP32 أرخص فقط","ESP32 بدون WiFi","لا فرق"], 0, "ESP32 يجمع قوة معالجة أعلى + اتصالات مدمجة بسعر أقل."],
+    ["ما وظيفة WiFi.mode(WIFI_STA)؟", ["جعل ESP32 نقطة وصول","جعل ESP32 جهازاً يتصل بشبكة","إيقاف WiFi","إعادة تشغيل WiFi"], 1, "STA (Station) = ESP32 يتصرف كموبايل — يتصل بشبكة موجودة."],
+    ["Dual-Core في ESP32 يعني أن المعالج:", ["يعمل بسرعة مضاعفة","يمكنه تنفيذ مهمتين في نفس الوقت","لا يوجد تبريد","يحتاج طاقة أعلى فقط"], 1, "نواتان مستقلتان = توازي حقيقي في المهام."],
+    ["ما أقصى جهد يمكن أن يتحمله طرف ADC في ESP32؟", ["5V","3.3V","1.8V","12V"], 1, "ADC يقيس من 0 إلى 3.3V — أعلى من ذلك يتلف الشريحة."],
+    ["ما الدالة لبدء Serial Monitor في ESP32؟", ["Serial.start()","Serial.begin(115200)","Serial.open()","Serial.init()"], 1, "Serial.begin(115200) — سرعة 115200 أعلى من 9600 المعتادة في الأردوينو."],
+    ["ما أفضل طريقة لتجنب تعارض WiFi مع قراءة ADC؟", ["استخدام ADC1 فقط","استخدام ADC2","إيقاف WiFi","استخدام مقاومة"], 0, "ADC1 (GPIO 32,33,34,35,36,39) تعمل دائماً حتى مع WiFi نشط."],
+    ["GPIO 34 و 35 في ESP32 لهما قيد مهم هو:", ["لا يمكن استخدامهما","Input فقط (لا يمكن الكتابة عليهما)","يحتاجان جهد 5V","يحتاجان مقاومة"], 1, "GPIO 34-39 هي input فقط — لا تدعم OUTPUT ولا Pull-up داخلي."],
+    ["ما الذي يحدث لو أدخلت 5V على GPIO من ESP32؟", ["يعمل بأمان","يتحمل حتى 5V","يتلف الشريحة (3.3V كحد أقصى)","يزيد السرعة"], 2, "3.3V هو الحد الأقصى — أي جهد أعلى = تلف فوري."],
+    ["ما وظيفة WiFi.disconnect()؟", ["إيقاف الاتصال بالشبكة الحالية","إعادة الاتصال","مسح قائمة الشبكات","إعادة التشغيل"], 0, "قطع الاتصال الحالي — مفيد قبل بدء scan جديد."],
+    ["في كود WiFi Scanner، لماذا نستخدم WiFi.RSSI(i)؟", ["لقراءة اسم الشبكة","لقراءة قوة إشارة الشبكة رقم i","للاتصال بالشبكة","لإطفاء WiFi"], 1, "RSSI = قوة الإشارة بالـ dBm — مهمة لتحديد مدى قوة الشبكة."],
+    ["ما ميزة ESP32 عن ESP8266؟", ["ESP32 Dual-Core + BLE + عدد أطراف أكثر","ESP8266 أسرع","لا فرق","ESP8266 له شاشة"], 0, "ESP32 أحدث وأقوى — معالج مزدوج + بلوتوث + أطراف أكثر."],
+    ["ما وظيفة BLE في ESP32؟", ["بلوتوث منخفض الطاقة","WiFi سريع","شاشة","بطارية"], 0, "BLE = Bluetooth Low Energy — يوفر طاقة ويسمح باتصال مباشر بالموبايل."],
+    ["أي مما يلي من مميزات ESP32 عن UNO؟", ["Dual-Core 240MHz","WiFi مدمج","ذاكرة 520KB","كل ما سبق"], 3, "ESP32 يجمع كل هذه المميزات في شريحة واحدة."],
+    ["ما هو الـ Flash Memory في ESP32؟", ["ذاكرة تخزين دائمة للكود","ذاكرة عشوائية","بطارية","شاشة"], 0, "Flash (4MB عادة) تخزن الكود والملفات بشكل دائم — تبقي بعد فصل الكهرباء."],
+    ["لماذا ESP32 يحتاج تعريف CH340 أو CP210x على الحاسوب؟", ["لتحويل USB إلى Serial","لتشغيل WiFi","لشحن البطارية","للتشفير"], 0, "شريحة USB-to-Serial تحتاج تعريف لتعمل كمنفذ COM."],
+    ["ما وظيفة core 0 في ESP32 افتراضياً؟", ["مهام المستخدم","مهام WiFi و BLE","الشاشة","النوم"], 1, "Core 0 مخصص لمهام النظام (WiFi/BLE) — لذلك يُفضل استخدام Core 1 للمهام الثقيلة."],
+    ["ما الحد الأقصى لسرعة WiFi في ESP32؟", ["10 Mbps","54 Mbps","150 Mbps (802.11n)","1000 Mbps"], 2, "ESP32 يدعم 802.11 b/g/n — حتى 150 Mbps نظرياً."]
+  ]
+},
+{
+  id: 2, title: "Touch + OLED", icon: "👆", short: "حساس اللمس + الشاشة",
+  qs: [
+    ["كم طرفاً يدعم حساس اللمس (Touch) في ESP32؟", ["4","6","10","20"], 2, "ESP32 يدعم 10 أطراف لمسية (T0 إلى T9) على GPIOs مختلفة."],
+    ["ما الدالة لقراءة حساس اللمس؟", ["touchRead(pin)","analogRead(pin)","digitalRead(pin)","readTouch(pin)"], 0, "touchRead() تقرأ قيمة السعة الكهربائية على الطرف."],
+    ["عند لمس الطرف، قيمة touchRead():", ["ترتفع","تنخفض (عادة أقل من 30)","تبقى ثابتة","تصبح صفر"], 1, "لمسة الصباع تزيد السعة، فيقل الرقم — عادة أقل من 30 عند اللمس."],
+    ["ما البروتوكول الذي تستخدمه شاشة OLED SSD1306؟", ["SPI","UART","I2C","WiFi"], 2, "I2C يستخدم سلكين فقط (SDA + SCL) — أبسط من SPI."],
+    ["عنوان I2C الشائع لشاشة SSD1306:", ["0x3C","0x68","0x76","0xFF"], 0, "0x3C هو العنوان الافتراضي — بعض النسخ 0x3D."],
+    ["أطراف I2C الافتراضية في ESP32:", ["GPIO 0,1","GPIO 21 (SDA), 22 (SCL)","GPIO 34,35","GPIO 2,4"], 1, "GPIO 21 = SDA (بيانات) و GPIO 22 = SCL (ساعة) — افتراضياً في ESP32."],
+    ["ما دقة شاشة OLED SSD1306؟", ["64×32","128×64","256×128","80×40"], 1, "128 بكسل عرضاً × 64 بكسل ارتفاعاً = 8192 بكسل."],
+    ["ما الدالة التي يجب استدعاؤها لتحديث محتوى الشاشة؟", ["display.show()","display.display()","display.update()","display.flush()"], 1, "بدون display() لن تظهر أي تغييرات — هذه هي الخطوة الحرجة!"],
+    ["ما وظيفة display.clearDisplay()؟", ["إطفاء الشاشة","مسح محتوى الشاشة في الذاكرة","حذف الكود","إعادة التشغيل"], 1, "تمسح المخزن المؤقت (buffer) — لكن لا تُظهر التغيير حتى display()."],
+    ["ما المكتبة الشائعة لشاشة OLED؟", ["OLED.h","Display.h","Adafruit_SSD1306","Screen.h"], 2, "Adafruit_SSD1306 + Adafruit_GFX هي المكتبة القياسية."],
+    ["ماذا تعني كلمة Touch السعوية (Capacitive)؟", ["تعتمد على الضغط الفيزيائي","تعتمد على تغير السعة الكهربائية بلمسة الإنسان","تعتمد على الحرارة","تعتمد على الصوت"], 1, "جسم الإنسان موصل — يقترب فتتغير السعة، فيكتشفها الحساس."],
+    ["لماذا لا نستخدم delay() طويلاً مع Touch؟", ["يوقف استجابة اللمس","يزيد السرعة","يوفر الطاقة","لا مشكلة"], 0, "delay يوقف كل الكود — اللمس لن يُقرأ حتى انتهاء التأخير."],
+    ["ما وظيفة display.setTextSize(2)؟", ["يكبر الخط","يصغره","يغيره","يلغيه"], 0, "setTextSize(2) يجعل الخط ضعف الحجم الافتراضي — مفيد للعناوين."],
+    ["أي طرف من ADC1 يدعم Touch أيضاً؟", ["GPIO 32 (T9)","GPIO 25","GPIO 5","GPIO 12"], 0, "GPIO 32 = T9 يدعم Touch وهو من ADC1 — مثالي للاستخدام مع WiFi."],
+    ["ماذا تعني كلمة SDA في I2C؟", ["Serial Data (بيانات)","Serial Address","System Data","Signal Data"], 0, "SDA = Serial Data — خط البيانات في I2C."],
+    ["ماذا تعني كلمة SCL في I2C؟", ["Serial Clock (ساعة)","Serial Clear","System Clock","Signal Clear"], 0, "SCL = Serial Clock — خط نبضات التزامن."],
+    ["لتوصيل OLED بـ ESP32: VCC يوصل بـ:", ["5V","3.3V","GND","GPIO"], 1, "3.3V لشاشة SSD1306 — توصيلها بـ 5V قد يتلفها."],
+    ["ما وظيفة Wire.begin() في OLED؟", ["بدء اتصال I2C","إطفاء الشاشة","ضبط الجهد","تشغيل WiFi"], 0, "Wire.begin() يهيئ ناقل I2C — بدونها لا يعمل OLED."],
+    ["كم بكسل في الشاشة SSD1306 128×64 إجمالاً؟", ["128","256","8192","65536"], 2, "128 × 64 = 8192 بكسل — أحادية اللون (كل بكسل on/off)."],
+    ["ماذا يحدث لو استخدمت عنوان I2C خاطئاً؟", ["يعمل","لن يجد الشاشة (display.begin() ترجع false)","يحترق الجهاز","يزيد السطوع"], 1, "العنوان الخاطئ = لا اتصال = المكتبة ترجع false."],
+    ["ما وظيفة display.setCursor(x, y)؟", ["إطفاء الشاشة","تحريك نقطة الكتابة لموضع محدد","مسح الشاشة","زيادة السطوع"], 1, "setCursor يحدد مكان بدء الكتابة (x = عمود، y = سطر)."],
+    ["ما تعني كلمة Refresh Rate في شاشة OLED؟", ["سرعة تحديث الشاشة","سرعة الإدخال","حجم الشاشة","اللون"], 0, "عدد مرات تحديث الشاشة في الثانية — كلما زاد، الحركة أنعم."],
+    ["هل يمكن لـ OLED عرض صور؟", ["لا يمكن","نعم (bitmaps)","فقط نصوص","فقط أرقام"], 1, "يمكن رسم صور بسيطة (bitmaps) وأشكال باستخدام دوال GFX."],
+    ["ما وظيفة الأطراف GPIO 34 و 35؟", ["مخرجات فقط","مدخلات فقط (input only)","طاقة","I2C"], 1, "GPIO 34-39 مدخلات فقط — لا تصلح للتحكم في LED."],
+    ["أي مما يلي يمكن أن يكون سبباً لعدم ظهور الشاشة؟", ["توصيل SDA و SCL مقلوبين","عدم تشغيل Wire.begin()","عنوان I2C خاطئ","كل ما سبق"], 3, "أي من هذه الأسباب يؤدي لعدم عمل الشاشة — تحقق من كل شيء."],
+    ["ما وظيفة setTextColor(SSD1306_WHITE)؟", ["جعل النص أبيض","جعل النص أسود","مسح الشاشة","إطفاء الإضاءة"], 0, "الشاشة أحادية اللون — أبيض = مضيء، أسود = مطفأ."],
+    ["لماذا نستخدم حساس اللمس بدلاً من الأزرار؟", ["تصميم أنيق بدون أجزاء ميكانيكية","أرخص","أسرع","لا فرق"], 0, "لا أزرار تتعطل — لمسة الصباع مباشرة على السطح."],
+    ["ما الذي يحدث في دالة setup() عادة مع Touch + OLED؟", ["تهيئة Serial + Wire + display.begin","تشغيل WiFi","قراءة الحساسات","إرسال للـ Cloud"], 0, "setup تهيئ الأجهزة فقط — القراءة تحدث في loop."],
+    ["أي من الأرقام التالية قيمة قراءة Touch عند لمس الطرف عادة؟", ["100","80","15","500"], 2, "اللمس يخفض القيمة إلى 10-25 عادة — بينما الوضع الهادئ 60-90."],
+    ["ما وظيفة BLE2902 في بعض أكواد الشاشات؟", ["زيادة السطوع","تفعيل Notify في BLE","إطفاء الشاشة","ضبط الجهد"], 1, "BLE2902 ليس له علاقة بالشاشة — هو descriptor لـ BLE Notify (من محاضرة أخرى)."]
+  ]
+},
+{
+  id: 3, title: "ساعة NTP الذكية", icon: "⏰", short: "الوقت من الإنترنت",
+  qs: [
+    ["ماذا يعني NTP؟", ["Network Time Protocol","New Time Processing","Next Timer Point","Node Time Program"], 0, "Network Time Protocol — بروتوكول لجلب الوقت الدقيق من الإنترنت."],
+    ["ما الدالة التي تبدأ مزامنة الوقت في ESP32؟", ["time.begin()","syncTime()","configTime()","getTime()"], 2, "configTime(0, 0, \"pool.ntp.org\") تبدأ المزامنة مع خادم NTP."],
+    ["ما هو TZ في configTime؟", ["الوقت Zones (المنطقة الزمنية)","Time Zone (المنطقة الزمنية)","Test Zone","Total Zone"], 1, "TZ = TimeZone — نضبطها لتحديد توقيت البلد."],
+    ["المنطقة الزمنية لمصر UTC+2 تُكتب في صيغة POSIX كـ:", ["\"UTC+2\"","\"Cairo\"","\"EGYPT\"","\"EET-2\""], 3, "صيغة POSIX معكوسة: UTC+2 ← \"EET-2\" (الإشارة معكوسة!)"],
+    ["ما الدالة لقراءة الوقت المحلي بعد المزامنة؟", ["getLocalTime(&timeinfo)","readTime()","time.now()","getTimeLocal()"], 0, "getLocalTime تملأ هيكل tm بالوقت المحلي (وفق TZ)."],
+    ["الخادم العالمي الشائع للوقت هو:", ["time.google.com","pool.ntp.org","clock.world","ntp.global"], 1, "pool.ntp.org هو تجمع آلاف الخوادم العالمية — يختار ESP32 الأقرب تلقائياً."],
+    ["ما نوع النوع الذي يُعاد من getLocalTime؟", ["String","bool (نجاح أم فشل)","int","float"], 1, "ترجع true لو نجحت المزامنة، false لو فشلت (تنتظر في حلقة)."],
+    ["ما وظيفة strftime()؟", ["تنسيق الوقت كنص","قراءة الوقت","إيقاف المؤقت","حساب الفارق"], 0, "strftime تحوّل الوقت إلى نص بصيغة محددة (مثل \"%H:%M:%S\")."],
+    ["ماذا تعني %H:%M:%S في strftime؟", ["ساعة:دقيقة:ثانية بصيغة 24","ساعة 12","تاريخ كامل","اسم اليوم"], 0, "%H ساعة 24، %M دقيقة، %S ثانية."],
+    ["هل يمكن قراءة الوقت بعد انقطاع WiFi؟", ["لا","نعم — ESP32 يحتفظ به داخلياً","فقط لو كان هناك RTC","فقط في الصباح"], 1, "بعد أول مزامنة ناجحة، الوقت يُحفظ داخلياً — يستمر حتى بعد فقد الاتصال."],
+    ["ماذا يفعل setenv(\"TZ\", \"EET-2\", 1)؟", ["يضبط المنطقة الزمنية","يشغل WiFi","يجلب الوقت","يطبع الوقت"], 0, "setenv يضع متغير البيئة TZ — لتحديد المنطقة الزمنية."],
+    ["ماذا تعني tzset()؟", ["تطبيق المنطقة الزمنية","إيقاف المؤقت","مسح المنطقة","طباعة"], 0, "tzset() تطبق TZ على دوال الوقت في المكتبة."],
+    ["ما اسم المكتبة المطلوبة لـ NTP في ESP32؟", ["NTP.h","time.h (مدمجة)","Clock.h","Timer.h"], 1, "time.h مدمجة في ESP32 — لا حاجة لمكتبة خارجية!"],
+    ["لماذا نستخدم WiFi.begin() قبل configTime()؟", ["لأن NTP يحتاج اتصال إنترنت","لأنه إجباري","لتسريع المعالج","لا علاقة بينهما"], 0, "لا يمكن جلب الوقت من الإنترنت بدون اتصال أولاً."],
+    ["ما هي أول خطوة عند بدء الساعة الذكية؟", ["قراءة الحساسات","الاتصال بالـ WiFi","فتح الشاشة","تشغيل البازر"], 1, "NTP يحتاج WiFi نشط — الاتصال أولاً."],
+    ["ماذا يحدث لو فصلت USB وأعدت التوصيل؟", ["يفقد الوقت","يعيد المزامنة تلقائياً عند الاتصال","يتوقف عن العمل","يحترق"], 1, "ESP32 يعيد المزامنة تلقائياً عند الإقلاع من جديد (ما دام WiFi متاحاً)."],
+    ["أي مما يلي يمكن استخدامه لعرض الساعة؟", ["Serial Monitor فقط","OLED SSD1306","LCD 16x2","كل ما سبق صحيح"], 3, "يمكن عرض الوقت على أي شاشة — OLED هو الأكثر شيوعاً."],
+    ["ما وظيفة sprintf(buf, \"%02d:%02d\", h, m)؟", ["تنسيق الوقت كنص","تشغيل WiFi","إطفاء الشاشة","قراءة الحساس"], 0, "%02d تعني رقمين مع صفر بادئ — مثل \"05:09\"."],
+    ["كم مرة يمكن تحديث الشاشة في الساعة الذكية؟", ["كل ثانية","كل دقيقة","كل ساعة","حسب الحاجة"], 0, "كل ثانية كافية لعرض الوقت — بعض الاستخدامات تحتاج أكثر (milliseconds)."],
+    ["ما الذي يحدث في day() و month() في DateTime؟", ["يعيدان اسم اليوم والشهر","يعيدان تاريخ اليوم والشهر الحالي (أرقام)","يطبعان الوقت","يحسبان الوقت"], 1, "day() ترجع 1-31 و month() ترجع 1-12."],
+    ["هل يحتاج NTP لـ RTC خارجي؟", ["نعم ضروري","لا — NTP يجلب الوقت من الإنترنت مباشرة","أحياناً","فقط في مصر"], 1, "NTP و RTC بديلان — NTP يعتمد على الإنترنت، RTC يعتمد على بطارية داخلية."],
+    ["ماذا نستخدم لمعرفة أن المزامنة تمت بنجاح؟", ["while (!getLocalTime(&t))","millis() == 0","Serial.print()","delay(1000)"], 0, "getLocalTime ترجع true عند النجاح — نكرر المحاولة حتى تنجح."],
+    ["ما هو Unix Time؟", ["عدد الثواني منذ 1 يناير 1970","عدد الساعات من بدء التشغيل","الوقت بالتوقيت المحلي","اسم اليوم"], 0, "Unix Time = عدد الثواني منذ 1970-01-01 — مرجع عالمي للوقت."],
+    ["أي مما يلي يحتاج NTP في المشاريع؟", ["ساعة تعرض الوقت الحقيقي","تسجيل الأحداث بالتاريخ","مزامنة بين أجهزة","كل ما سبق"], 3, "NTP ضروري لأي تطبيق يحتاج وقتاً دقيقاً ومتزامناً."],
+    ["ماذا يفعل WiFi.begin(ssid, pass)؟", ["يبدأ الاتصال بالشبكة","يقطع الاتصال","يجلب الوقت","يطبع IP"], 0, "WiFi.begin تبدأ محاولة الاتصال — تنتظر حتى WL_CONNECTED."],
+    ["ماذا يعني WL_CONNECTED؟", ["حالة نجاح اتصال WiFi","حالة انقطاع الاتصال","حالة النوم","حالة إعادة التشغيل"], 0, "WL_CONNECTED = ثابت يعني WiFi متصل بنجاح."],
+    ["أي مما يلي من عيوب NTP؟", ["يحتاج إنترنت","دقة عالية","مجاني","يعمل بدون RTC"], 0, "لا يعمل بدون إنترنت — لهذا نفكر في RTC كبديل (محاضرة 6)."],
+    ["في مشروع الساعة، لماذا نستخدم delay(1000) بين التحديثات؟", ["لأن millis دقيق جداً","لتحديث كل ثانية فقط (توفير موارد)","لأن الشاشة تحتاج","لا داعي لها"], 1, "تحديث كل ثانية كافٍ — يوفّر الطاقة ويقلل الوميض."],
+    ["ما التنسيق المناسب لعرض الوقت فقط (بدون تاريخ)؟", ["%H:%M:%S","%Y-%m-%d","%A, %B","%c"], 0, "%H:%M:%S يعرض ساعة:دقيقة:ثانية."],
+    ["أي مما يلي مثال على Time Zone صحيحة للسعودية (UTC+3)؟", ["\"AST-3\"","\"UTC+3\"","\"KSA\"","\"Riyadh\""], 0, "صيغة POSIX: UTC+3 ← \"AST-3\" (الإشارة معكوسة)."]
+  ]
+},
+{
+  id: 4, title: "BME280 — ضغط وارتفاع", icon: "🌡️", short: "حساس الطقس الثلاثي",
+  qs: [
+    ["كم حساساً يوجد في BME280؟", ["حساس واحد","2 حساسات","3 (حرارة + رطوبة + ضغط)","5"], 2, "BME280 يجمع 3 حسابات دقيقة في شريحة صغيرة."],
+    ["ما الذي يقيسه BME280 بجانب الحرارة والضغط؟", ["الضوء","الرطوبة","الصوت","المسافة"], 1, "الرطوبة = نسبة بخار الماء في الهواء (0-100%)."],
+    ["العلاقة بين الضغط والارتفاع عن سطح البحر:", ["عكسية (كلما ارتفعنا قلّ الضغط)","طردية","لا توجد","ثابتة"], 0, "عمود الهواء فوقنا يقصر مع الارتفاع، فيقل الوزن والضغط."],
+    ["الضغط القياسي عند سطح البحر:", ["1000 hPa","1013.25 hPa","900 hPa","5000 hPa"], 1, "1013.25 hPa هي القيمة القياسية للضغط الجوي عند سطح البحر."],
+    ["ما الدالة التي تحول الضغط إلى ارتفاع؟", ["getHeight()","readAltitude(1013.25)","calcAlt()","elevation()"], 1, "readAltitude(seaLevelPressure) تحسب الارتفاع بناءً على الضغط."],
+    ["عنوان I2C لـ BME280:", ["0x3C","0x68","0x76 أو 0x77","0xFF"], 2, "0x76 افتراضي — بعض النسخ تستخدم 0x77 (اختيار عبر pin SDO)."],
+    ["ما البروتوكول الذي يستخدمه BME280؟", ["SPI","I2C","UART","WiFi"], 1, "I2C — سلكان فقط (SDA + SCL)."],
+    ["ما أفضل مكان لـ BME280 بالنسبة لـ ESP32؟", ["ملاصق تماماً","بعيد قليلاً (5 سم)","فوق ESP32","خارج العلبة"], 1, "ESP32 يسخن قليلاً — نضع الحساس بعيداً للحصول على قراءة حرارة دقيقة."],
+    ["ماذا يحدث عند الصعود لجبل إيفرست (8848م)؟", ["الضغط يزيد","الضغط يقل بشكل كبير (حوالي ثلث قيمة سطح البحر)","لا يتغير","يصبح الضغط = 0"], 1, "على القمم العالية، عمود الهواء فوقك قصير جداً فالضغط منخفض جداً."],
+    ["ما نوع البيانات التي يعيدها readTemperature()؟", ["int بالدرجات","float بالدرجات المئوية","String","bool"], 1, "float — يمكن أن تكون 24.5° مثلاً."],
+    ["هل يمكن لـ BME280 العمل في بيئة ماء مباشر؟", ["نعم","لا — قد يتلف","لا مشكلة","فقط في الماء العذب"], 1, "الحساس لا يتحمل الماء السائل — يقيس الرطوبة في الهواء فقط."],
+    ["ما الدقة التقريبية لقراءة الحرارة في BME280؟", ["±0.1°C","±1°C","±5°C","±10°C"], 1, "دقة جيدة حوالي ±1°C — أفضل بكثير من الحساسات العادية."],
+    ["ماذا يعني hPa؟", ["hectoPascal (100 باسكال)","high pressure","heat per area","humidity per area"], 0, "hectoPascal = 100 Pascal — وحدة قياس الضغط الجوي."],
+    ["ما وظيفة readPressure() / 100.0؟", ["تحويل Pa إلى hPa","تشغيل الحساس","ضبط الجهد","إطفاء الحساس"], 0, "readPressure ترجع Pa — نقسم على 100 للحصول على hPa (المألوف)."],
+    ["أي مما يلي يُستخدم لضبط المناخ في البيوت الذكية؟", ["BME280","RGB LED","Buzzer","Servo"], 0, "BME280 يوفر الحرارة والرطوبة والضغط — أساس التحكم في التكييف والتدفئة."],
+    ["هل يحتاج BME280 مكتبة خاصة؟", ["لا","نعم — Adafruit_BME280","نعم — WiFi","نعم — Bluetooth"], 1, "نستخدم مكتبة Adafruit_BME280 (تتطلب Adafruit Unified Sensor)."],
+    ["ماذا تعني كلمة \"Barometric\"؟", ["قياس الضغط الجوي","قياس الحرارة","قياس الرطوبة","قياس الرياح"], 0, "Barometer = مقياس الضغط الجوي — يُستخدم في الطقس والطيران."],
+    ["ما الاستخدام الأكثر شيوعاً لـ readAltitude() في المشاريع؟", ["معرفة ارتفاع الدرون","عرض حالة الطقس","حساب السرعة","إضاءة LED"], 0, "الدرون يستخدم مقياس ارتفاع بارومتري للمحافظة على الارتفاع."],
+    ["في ساعة ذكية، أي قيمة مفيدة قد تأتي من BME280؟", ["ضغط الهواء الداخلي","الحرارة والرطوبة","المنطقة الزمنية","اسم المستخدم"], 1, "الحرارة والرطوبة مفيدتان للمستخدم — لمعرفة الطقس."],
+    ["ماذا يحدث لو استخدمت عنوان I2C خاطئ لـ BME280؟", ["يعمل","bme.begin() ترجع false","يحترق","يتجاهل"], 1, "العنوان الخاطئ = لا اتصال — المكتبة ترجع false."],
+    ["أي مما يلي يمكن الاستفادة منه في الزراعة الذكية؟", ["BME280 (حرارة + رطوبة + ضغط)","مصابيح RGB","Keypad","IR Remote"], 0, "الحرارة والرطوبة أساسيتان في الزراعة — BME280 يوفرهما معاً."],
+    ["ما الذي يُميز BME280 عن DHT11؟", ["أدق وأغلى + يقيس الضغط أيضاً","أرخص فقط","لا فرق","أبطأ"], 0, "BME280 أدق وأسرع ويضيف قياس الضغط والارتفاع."],
+    ["كم طرفاً يحتاج BME280 للتوصيل؟", ["2","3","4 (VCC, GND, SDA, SCL)","6"], 2, "4 أطراف — لأن I2C يستخدم سلكين للبيانات + طاقة."],
+    ["كيف يمكن الاستفادة من BME280 في نظام إنقاذ؟", ["كشف التغير في الضغط (كشف دخان أو غاز)","إضاءة ممرات","تشغيل موسيقى","فتح الأبواب"], 0, "تغير الضغط المفاجئ قد يدل على حريق أو تسرب غاز."],
+    ["أي مما يلي من تطبيقات BME280؟", ["محطة طقس","درون مع مقياس ارتفاع","تطبيقات زراعية","كل ما سبق"], 3, "BME280 متعدد الاستخدامات في كل هذه المجالات."],
+    ["ماذا تعني كلمة \"Sensor Fusion\"؟", ["دمج عدة حساسات لتكوين صورة أدق","إطفاء الحساسات","برمجة الحساسات","لا معنى لها"], 0, "BME280 يدمج 3 حساسات ويصحح قراءاتها معاً (Sensor Fusion)."],
+    ["أي مما يلي صحيح عن altimeter؟", ["مقياس الارتفاع","مقياس الحرارة","مقياس الرطوبة","مقياس الضوء"], 0, "Altimeter = مقياس الارتفاع — يعمل بالضغط الجوي عادة."],
+    ["ماذا يحدث عند تسلق 1000 متر؟", ["الضغط يقل حوالي 100 hPa","الضغط يزيد","الضغط ثابت","لا يمكن القياس"], 0, "قاعدة تقريبية: كل 1000م ≈ انخفاض ~100 hPa (يختلف حسب الطقس)."],
+    ["ماذا نفعل لو قراءة BME280 غير دقيقة؟", ["نتحقق من التوصيل + نعيد المعايرة + نبعده عن مصدر الحرارة","نغير ESP32","نطفئ WiFi","نغير البروتوكول"], 0, "التوصيل الجيد + المعايرة + البعد عن الحرارة = قراءات صحيحة."],
+    ["في محطة طقس كاملة، أي مما يلي أفضل مزيج؟", ["BME280 + OLED + NTP","DHT11 فقط","MPU6050 فقط","PIR"], 0, "BME280 (حساسات) + OLED (عرض) + NTP (وقت) = محطة طقس متكاملة."]
+  ]
+},
+{
+  id: 5, title: "MPU6050 — حساس الحركة", icon: "🎯", short: "جيروسكوب + تسارع",
+  qs: [
+    ["ما الذي يقيسه MPU6050؟", ["الحرارة والرطوبة","التسارع + الدوران (6 DOF)","الضوء","الضغط"], 1, "MPU6050 يحتوي Accelerometer + Gyroscope — 6 درجات حرية."],
+    ["ماذا يعني 6 DOF؟", ["6 حساسات منفصلة","3 محاور تسارع + 3 محاور دوران","6 محاور تسارع","6 بروتوكولات"], 1, "Degree Of Freedom = محور حركة مستقل — 3 للانتقال + 3 للدوران."],
+    ["ماذا يقيس الـ Accelerometer؟", ["سرعة الدوران","التسارع والجاذبية","الحرارة","الضوء"], 1, "يقيس التسارع على 3 محاور — بما فيها الجاذبية الأرضية (1g = 9.8 m/s²)."],
+    ["ماذا يقيس الـ Gyroscope؟", ["التسارع","الجاذبية","سرعة الدوران (بالدرجة/ثانية)","الحرارة"], 2, "يقيس معدل تغير الزاوية — أي سرعة الدوران حول كل محور."],
+    ["على سطح مستوٍ، قيمة التسارع على محور Z تقريباً:", ["0","9.8 m/s²","100","-9.8"], 1, "الجاذبية الأرضية = 1g ≈ 9.8 m/s² في اتجاه محور Z (لو الحساس مستوٍ)."],
+    ["ماذا تعني Pitch؟", ["الدوران حول Z","الدوران حول X (ميل أمام/خلف)","الدوران حول Y","الجاذبية"], 1, "Pitch = ميل الجهاز للأمام أو للخلف (حول المحور الأفقي X)."],
+    ["ماذا تعني Roll؟", ["الدوران حول X","الدوران حول Y (ميل يمين/يسار)","الدوران حول Z","الارتفاع"], 1, "Roll = ميل الجهاز يميناً أو يساراً (حول المحور الأمامي Y)."],
+    ["ماذا تعني Yaw؟", ["الدوران حول X","الدوران حول Y","الدوران حول Z (لف حول النفس)","الارتفاع"], 2, "Yaw = لف الجهاز حول محوره العمودي (Z) — كلفّ الرأس يميناً أو يساراً."],
+    ["عنوان I2C لـ MPU6050:", ["0x3C","0x68","0x76","0x77"], 1, "0x68 — يمكن تغييره إلى 0x69 عبر توصيل AD0 بـ VCC."],
+    ["ما الدالة التي تُستدعى لقراءة كل البيانات دفعة واحدة؟", ["mpu.read()","mpu.getEvent(&a, &g, &temp)","mpu.getAll()","mpu.fetch()"], 1, "getEvent تملأ هيكلات sensors_event_t — كفاءة عالية."],
+    ["ما الدالة الرياضية لحساب الميلان من إحداثيات التسارع؟", ["sin()","cos()","atan2(y, z)","sqrt()"], 2, "atan2(y, z) تحسب الزاوية بدقة في كل الحالات (best practice)."],
+    ["لماذا نضرب الزاوية بـ 180/PI؟", ["لتحويل راديان إلى درجات","لتحويل درجة إلى راديان","للتسريع","لا داعي"], 0, "atan2 ترجع راديان — نضرب في 180/π للتحويل إلى درجات."],
+    ["ما الدقة التقريبية لـ MPU6050؟", ["±0.01°","±1°","±5°","±10°"], 1, "دقة جيدة — لكن مع ضوضاء طبيعية ±0.05g تحتاج معايرة."],
+    ["ما أفضل طريقة لتقليل ضوضاء قراءة MPU6050؟", ["زيادة سرعة القراءة","استخدام مرشح (Filter) متوسط متحرك","رفع الجهد","تقليل WiFi"], 1, "الفلتر المتوسط (Moving Average) أو Complementary Filter يقلل الضوضاء."],
+    ["ماذا يحدث لو سقط MPU6050 على الأرض؟", ["يعمل بشكل أفضل","قد يتلف (أجزاء MEMS دقيقة)","يزيد الدقة","لا شيء"], 1, "MPU6050 يحتوي أجزاء ميكروية داخلية — الصدمات قد تتلفها."],
+    ["أي مما يلي تطبيق حقيقي لـ MPU6050؟", ["طائرات الدرون","الموبايل (تدوير الشاشة)","ألعاب Wii","كل ما سبق"], 3, "MPU6050 أو ما يشابهه موجود في كل هذه الأجهزة."],
+    ["ما مكتبة Adafruit الشائعة لـ MPU6050؟", ["Adafruit_MPU6050","Adafruit_IMU","Adafruit_Motion","Adafruit_Gyro"], 0, "Adafruit_MPU6050 — تعتمد على Adafruit Unified Sensor + BusIO."],
+    ["ما الفرق بين Accelerometer و Gyroscope؟", ["متطابقان","الأول للتسارع، الثاني للدوران","الأول للحرارة","لا فرق"], 1, "يكمل كل منهما الآخر — Accelerometer للأرضي، Gyroscope للدوران."],
+    ["لماذا نحتاج حساسين معاً بدلاً من واحد؟", ["Accelerometer يعطي الاتجاه، Gyroscope يعطي سرعة التغير","لأن أحدهما أرخص","لأن كل واحد بلا فائدة","لا داعي"], 0, "الجمع بينهما (Sensor Fusion) يعطي إحساساً كاملاً بالحركة."],
+    ["ماذا تعني وحدة g في قياس التسارع؟", ["1g = 9.8 m/s² (تسارع الجاذبية الأرضية)","1g = 1 م/ث","1g = 1000 m/s²","1g = وزن 1 كجم"], 0, "g هي وحدة الجاذبية — 1g ≈ 9.8 m/s²."],
+    ["أي إعداد في MPU6050 يحدد حساسية الجيروسكوب؟", ["setAccelerometerRange","setGyroRange","setFilterBandwidth","setSensorRange"], 1, "setGyroRange — من 250°/s إلى 2000°/s حسب الاستخدام."],
+    ["ما الفرق بين nRF52 و MPU6050؟", ["nRF52 شريحة اتصال، MPU6050 حساس حركة","متطابقان","nRF52 للساعة","لا فرق"], 0, "nRF52 شريحة اتصال BLE، MPU6050 حساس حركة — لا علاقة بينهما."],
+    ["ماذا يفعل setFilterBandwidth؟", ["يقلل الضوضاء (فلترة تمرير منخفض)","يزيد السرعة","يطفئ الحساس","يزيد الجهد"], 0, "يقلل الضوضاء بحجب الترددات العالية — يقلل الاهتزاز."],
+    ["أي مما يلي يستفيد من Pitch/Roll؟", ["مستوى تسوية للدرون","لعبة تحكم بالحركة","كاميرا GoPro","كل ما سبق"], 3, "كل هذه التطبيقات تحتاج معرفة الميلان (Pitch/Roll)."],
+    ["في مشروع توازن، ما أفضل مرشح لتقليل الضوضاء؟", ["Moving Average","Random Filter","No Filter","Alpha Filter فقط"], 0, "المتوسط المتحرك (Moving Average) بسيط وفعال."],
+    ["ماذا تعني MEMS في وصف MPU6050؟", ["Micro-Electro-Mechanical Systems","Memory Electronic Sensor","Motion Electronic Sensor","Multiple Event Sensor"], 0, "MEMS = أنظمة ميكروية كهروميكانيكية — تجمع دوائر ورقائق دقيقة."],
+    ["هل يمكن أن يستخدم MPU6050 للكشف عن السقوط؟", ["نعم — بتحديد تغير مفاجئ في التسارع","لا","فقط بالحرارة","فقط مع GPS"], 0, "السقوط الحر = تسارع ≈ 0g — ثم صدمة عند الاصطدام. يمكن كشفها."],
+    ["أي قراءة متوقعة لو قلبت الجهاز 180 درجة؟", ["Accel Z يصبح -9.8","Accel Z يبقى 9.8","Accel X يصبح 9.8","لا تتغير"], 0, "قلب الجهاز = اتجاه الجاذبية ينعكس ← Z يصبح -9.8."],
+    ["ما أفضل طريقة لتثبيت MPU6050 في مشروع؟", ["بعيد عن الاهتزاز مع تثبيت محكم","بجانب الموتورات","على بطارية","فوق ESP32"], 0, "الاهتزاز يسبب ضوضاء — التثبيت المحكم بعيداً عن الموتورات أفضل."],
+    ["هل MPU6050 يقيس درجة الحرارة أيضاً؟", ["لا","نعم — حساس حرارة داخلي (للمعايرة)","فقط بالصيف","حسب النسخة"], 1, "يحتوي حساس حرارة داخلي لتصحيح قراءات التسارع والجيروسكوب."]
+  ]
+},
+{
+  id: 6, title: "PIR + RTC — حارس الغرفة", icon: "🛡️", short: "كشف الحركة + الساعة",
+  qs: [
+    ["ما الذي يكتشفه PIR؟", ["الحرارة فقط","الحركة عبر الأشعة تحت الحمراء","الضوء","الصوت"], 1, "PIR = Passive Infrared — يكتشف حرارة الأجسام المتحركة."],
+    ["لماذا يسمى PIR \"Passive\"؟", ["لأنه لا يرسل أشعة، بل يستقبل فقط","لأنه بطيء","لأنه رخيص","لأنه لا يعمل بلا كهرباء"], 0, "Passive = سلبي — يكشف الأشعة دون أن يرسلها."],
+    ["الجهد الذي يحتاجه PIR HC-SR501:", ["3.3V","5V","12V","1.5V"], 1, "يعمل من 5V (يقبل من 4.5 إلى 20V عادة، لكن 5V الأفضل)."],
+    ["كم طرفاً لـ PIR؟", ["2","3 (VCC, GND, OUT)","4","5"], 1, "ثلاثة أطراف — بسيط جداً!"],
+    ["ماذا تعني كلمة OUT في PIR؟", ["إشارة رقمية (HIGH لو حركة، LOW لو لا)","خروج الماء","درجة الحرارة","الجهد"], 0, "OUT = إشارة رقمية — تُقرأ بـ digitalRead()."],
+    ["المدى التقريبي لـ PIR HC-SR501:", ["10 سم","3-7 أمتار","100 متر","1 كيلومتر"], 1, "حوالي 7 أمتار بزاوية 110° — ممتاز لغرفة."],
+    ["ماذا يحدث عند كشف حركة؟", ["OUT يصبح HIGH","OUT يصبح LOW","يتوقف الحساس","يحترق"], 0, "PIR يرفع OUT إلى HIGH لعدة ثوانٍ عند كشف حركة."],
+    ["ما وظيفة RTC DS3231؟", ["حساب الوقت بدقة (ساعة حقيقية)","قياس الحرارة","كشف الحركة","إضاءة"], 0, "Real Time Clock — يحفظ الوقت بدقة عالية لسنوات."],
+    ["ما نوع بطارية DS3231؟", ["AA","CR2032 (قرص)","9V","Li-ion"], 1, "بطارية CR2032 تحفظ الوقت عند انقطاع الكهرباء (تعمل ~3 سنوات)."],
+    ["ماذا يحدث لو نفدت بطارية RTC؟", ["يعمل بدون مشاكل","يفقد الوقت ويعود لسنة 2000","يحترق","يتوقف نهائياً"], 1, "RTC يفقد الوقت — يحتاج ضبط من جديد (عبر NTP أو يدوياً)."],
+    ["الجهد المناسب لـ DS3231 عبر ESP32:", ["5V","3.3V","12V","1.8V"], 1, "3.3V عبر ESP32 — لا تدخل 5V على SDA/SCL وإلا يتلف."],
+    ["عنوان I2C لـ DS3231:", ["0x3C","0x68","0x76","0x77"], 1, "0x68 هو العنوان الثابت لـ DS3231."],
+    ["ما الدالة لقراءة الوقت من RTC في مكتبة RTClib؟", ["rtc.now()","rtc.getTime()","rtc.read()","rtc.clock()"], 0, "rtc.now() ترجع كائن DateTime بالوقت الحالي."],
+    ["ما الدالة التي تعطي الساعة من DateTime؟", ["now.hour()","now.getHours()","now.h()","now.hours()"], 0, "hour() ترجع 0-23 — للدقيقة minute() وللثانية second()."],
+    ["لماذا نستخدم RTC بدلاً من NTP وحده؟", ["RTC يعمل بدون إنترنت","NTP ممنوع","RTC أرخص","NTP لا يدعم ESP32"], 0, "RTC مستقل عن الشبكة — يعمل في أي مكان حتى بدون WiFi."],
+    ["كيف نضبط RTC أول مرة؟", ["عبر rtc.adjust(DateTime(F(__DATE__), F(__TIME__)))","تلقائياً","لا يمكن ضبطه","عبر WiFi فقط"], 0, "rtc.adjust() تضبط الوقت الأولي من وقت الكمبيوتر (عند الرفع)."],
+    ["ما وظيفة sprintf(buf, \"%02d:%02d:%02d\", ...)؟", ["تنسيق الوقت كنص بصيغة HH:MM:SS","تشغيل RTC","إطفاء الحساس","قراءة الضغط"], 0, "sprintf يحول الأرقام إلى نص منسق — مفيد للعرض."],
+    ["في مشروع الحارس، متى نسجل الوقت؟", ["عند كشف الحركة فقط","كل ثانية","عند التشغيل","لا نسجل"], 0, "نسجل timestamp لكل حدث (حركة) — لتتبع من دخل ومتى."],
+    ["ماذا يحدث لو انقطع اتصال PIR بالأرضي؟", ["يعمل بشكل عشوائي (تعليق أو إشارات كاذبة)","يعمل طبيعياً","يزيد الحساسية","لا فرق"], 0, "GND ضروري — بدونه إشارات غير مستقرة."],
+    ["كيف نمنع تسجيل نفس الحركة مرات عديدة؟", ["نستخدم Edge Detection (كشف تغير LOW←HIGH فقط)","نطفي الحساس","نزيد الجهد","نغير I2C"], 0, "نقرأ فقط عند التغير من LOW إلى HIGH — كل حركة تُسجل مرة واحدة."],
+    ["ما نوع الإشارة التي يستقبلها PIR؟", ["أشعة تحت الحمراء (حرارة)","الضوء المرئي","الصوت","الموجات الراديوية"], 0, "الأشعة تحت الحمراء — كل جسم دافئ يصدرها."],
+    ["لماذا لا يعمل PIR خلف زجاج سميك؟", ["الزجاج يمنع الأشعة تحت الحمراء","يحترق","ينطفئ","يفقد البطارية"], 0, "الزجاج يحجب الأشعة تحت الحمراء — الحساس يحتاج رؤية مباشرة."],
+    ["ماذا يفعل delay(2000) بعد تشغيل PIR؟", ["يعطي الحساس وقتاً للاستقرار (Warm-up)","يسرع الحساس","يطفئه","يرفع الجهد"], 0, "PIR يحتاج 30-60 ثانية أول مرة، وبعدها 2-3 ثوانٍ كافية."],
+    ["ما مدى دقة RTC DS3231؟", ["±2 دقيقة/سنة","±1 ثانية/سنة (عالي جداً)","±1 ساعة/سنة","لا يوجد"], 1, "DS3231 من أدق الساعات — ±2 ppm (±1 دقيقة/سنة)."],
+    ["ماذا نعرض على OLED في حارس الغرفة؟", ["الحالة الحالية + الوقت + عدد الأحداث","فقط الوقت","فقط الأحداث","لا شيء"], 0, "معلومات شاملة — حالة النظام والوقت وتاريخ آخر حدث."],
+    ["ماذا نفعل لتوفير طاقة RTC؟", ["البطارية تكفي وحدها عند انقطاع الكهرباء","نطفئ RTC","نفصله","لا يمكن توفير"], 0, "البطارية تحفظ الوقت فقط — استهلاك صغير جداً (~3 μA)."],
+    ["أي مما يلي نظام مثالي لـ PIR + RTC؟", ["حارس غرفة يسجل من دخل ومتى","ساعة حائط","راديو","جهاز تحكم TV"], 0, "كشف الحركة + تسجيل الوقت = نظام مراقبة كامل."],
+    ["ماذا يحدث لو كانت بطارية RTC ضعيفة (منخفضة)؟", ["الوقت يتأخر أو يفقد بسرعة","يعمل طبيعياً","يزيد السرعة","لا فرق"], 0, "البطارية الضعيفة قد تؤدي لانحراف الوقت أو فقدانه عند انقطاع الكهرباء."],
+    ["لماذا نستخدم enum أو ثوابت للحالات بدلاً من أرقام؟", ["للوضوح وتجنب الأخطاء","لتسريع الكود","للتوفير","لا داعي"], 0, "State IDLE أوضح من 0 — يقلل الأخطاء ويسهل القراءة."],
+    ["أي مما يلي يحتاج RTC بالتأكيد؟", ["تسجيل الأحداث بالتاريخ","إضاءة LED","تشغيل موسيقى","قراءة البوتانشيومتر"], 0, "أي نظام يحتاج معرفة \"متى\" يحتاج RTC."]
+  ]
+},
+{
+  id: 7, title: "مشروع حارس الغرفة الكامل", icon: "⭐", short: "المشروع المتكامل الأول",
+  qs: [
+    ["ما هو State Machine؟", ["آلة ميكانيكية","تنظيم السلوك في حالات واضحة","نوع من الحساسات","بروتوكول اتصال"], 1, "State Machine = نموذج برمجي يدير النظام وفق حالات محددة (IDLE, ALERT...)."],
+    ["ما فوائد State Machine؟", ["كود أنظف وأسهل في القراءة والتعديل","لا فائدة","أبطأ","أعقد"], 0, "تنظيم + قابلية توسيع + سهولة تصحيح — أفضل ممارسة احترافية."],
+    ["ما الحالات الأربعة النموذجية في حارس الغرفة؟", ["ON/OFF","IDLE / DETECTED / ALERT / COOLDOWN","RED/GREEN/BLUE","A/B/C/D"], 1, "كل حالة لها منطق مستقل وانتقالات محددة."],
+    ["ما وظيفة IDLE؟", ["مراقبة سلبية — في انتظار حركة","إطلاق إنذار","نوم","إعادة تشغيل"], 0, "IDLE = وضع الاستعداد — النظام يراقب فقط."],
+    ["ماذا يحدث في DETECTED؟", ["نسجل الوقت + ننتقل لـ ALERT","نطلق إنذار","ننام","نطفئ الحساس"], 0, "DETECTED مرحلة انتقالية قصيرة لتسجيل الحدث قبل الإنذار."],
+    ["ماذا يحدث في ALERT؟", ["تشغيل Buzzer + LED لفترة محددة","إطفاء كل شيء","نوم","لا شيء"], 0, "ALERT = المرحلة النشطة (إنذار صوتي + بصري) لمدة 5 ثوانٍ عادة."],
+    ["ما وظيفة COOLDOWN؟", ["منع تكرار الإنذار السريع — فترة راحة","تبريد الجهاز","إطفاء البطارية","قراءة الحساسات"], 0, "COOLDOWN يعطي فترة (10 ثوانٍ) قبل العودة لـ IDLE — لتجنب سيل التنبيهات."],
+    ["لماذا نستخدم millis() بدلاً من delay() في State Machine؟", ["millis لا يوقف الكود — يسمح بمهام أخرى","delay أسرع","millis أرخص","لا فرق"], 0, "delay يوقف كل شيء — millis يتيح فحص الوقت دون توقف."],
+    ["كيف نعرف مدة البقاء في حالة؟", ["millis() - stateStartTime","delay()","العداد التلقائي","لا يمكن"], 0, "نسجل وقت الدخول، ثم نقارن — يعطي المدة المنقضية."],
+    ["ما وظيفة enum في الكود؟", ["تعريف ثوابت مسماة","حذف المتغيرات","تسريع WiFi","توليد أرقام عشوائية"], 0, "enum يُعطي أسماء واضحة للحالات — أفضل من الأرقام المجهولة."],
+    ["ما وظيفة switch/case؟", ["تنفيذ كود مختلف حسب قيمة المتغير","طباعة","حذف","إطفاء"], 0, "switch يفحص قيمة state وينفذ الكود المناسب — مثالي لـ State Machine."],
+    ["لماذا نستخدم setState() كدالة منفصلة؟", ["لتسجيل الوقت وتحديث كل شيء في مكان واحد","لتسريع الكود","لتوفير الذاكرة","لا داعي"], 0, "دالة مركزية = ضمان عدم نسيان أي تحديث عند الانتقال."],
+    ["في مشروع الحارس، ما وظيفة Buzzer؟", ["تنبيه صوتي عند كشف حركة","قياس المسافة","تشغيل WiFi","قراءة الضغط"], 0, "Buzzer ينبه المستخدم صوتياً — أساس نظام الأمان."],
+    ["ما مكتبة tone() في Arduino؟", ["مدمجة لتوليد نغمة على Buzzer","مكتبة خارجية","للشاشة","للحساسات"], 0, "tone(pin, freq) دالة مدمجة — تولد موجة مربعة بتردد محدد."],
+    ["ما وظيفة noTone()؟", ["إيقاف النغمة","زيادة التردد","تشغيل","تجاهل"], 0, "noTone(pin) توقف الصوت — يجب استدعاؤها بعد tone()."],
+    ["لماذا Buzzer Active يختلف عن Passive؟", ["Active يحتاج فقط HIGH — Passive يحتاج تردد","متطابقان","Active ممنوع","لا فرق"], 0, "Active: digitalWrite يكفي. Passive: يحتاج tone() بتردد."],
+    ["ما اسم آخر مشروع في المستوى الثالث المرتبط بمشروع الحارس؟", ["الكابستون","الكاشف","التخرج المصغر","Demo Project"], 0, "L3-07 كان النسخة المبسطة، والكابستون في L3-15 هو النسخة الكاملة."],
+    ["ماذا نفعل لو فشل الـ Relay في التحكم بالباب؟", ["نفحص الدائرة + نتحقق من الإشارة","نطفئ كل شيء","نعيد التشغيل","لا حل"], 0, "فحص منطقي خطوة بخطوة — تيار التحكم، الإشارة، الحمل."],
+    ["أي مما يلي أفضل ترتيب لحالات الحارس؟", ["ALERT ← IDLE ← DETECTED","IDLE ← DETECTED ← ALERT ← COOLDOWN ← IDLE","COOLDOWN ← ALERT ← IDLE","DETECTED ← ALERT فقط"], 1, "دورة طبيعية: مراقبة ← كشف ← إنذار ← راحة ← مراقبة."],
+    ["ماذا يحدث لو بقيت في ALERT للأبد؟", ["ينفد صوت البازر + إزعاج","لا مشكلة","يتحسن","لا شيء"], 0, "لهذا نضع timeout — ينتقل لـ COOLDOWN بعد 5 ثوانٍ."],
+    ["في مشروع الحارس، أي مما يلي مخرج (Output)؟", ["Buzzer","PIR","RTC","BME280"], 0, "Buzzer = مخرج صوتي — PIR و RTC و BME280 مدخلات."],
+    ["أي مما يلي مدخل (Input)؟", ["PIR","LED","Buzzer","Relay"], 0, "PIR يُدخل إشارة — LED و Buzzer و Relay مخرجات."],
+    ["ما أفضل طريقة لتنظيم كود مشروع كبير؟", ["تقسيمه لدوال صغيرة + ملفات منفصلة","كل شيء في loop","استخدام goto","تعليقات فقط"], 0, "التقسيم يسهل القراءة والصيانة — مبدأ Separation of Concerns."],
+    ["ماذا يفعل define عند بداية الكود؟", ["يعرّف ثابتاً باسم واضح","يحذف الكود","يطبع","لا شيء"], 0, "#define LED_PIN 2 يسهل تغيير الرقم لاحقاً بدل تعديل كل مكان."],
+    ["ما وظيفة Serial.print() في الحارس؟", ["تسجيل الأحداث على Serial Monitor","تسريع الكود","إطفاء الحساس","رفع الحرارة"], 0, "Serial.print للمراقبة أثناء التطوير — يكشف الأخطاء بسرعة."],
+    ["ماذا نفعل لتوفير طاقة النظام؟", ["ننام عند عدم الحركة (deep sleep)","نطفئ كل شيء","نقلل الجهد","نستخدم WiFi أكثر"], 0, "Deep Sleep (10μA) — يوقظ عند حركة عبر PIR أو مؤقت."],
+    ["لماذا نستخدم فلترة (Filtering) لقراءات PIR؟", ["لتقليل الإشارات الكاذبة","لتسريع القراءة","لتوفير الطاقة","لا داعي"], 0, "PIR قد يعطي إشارات كاذبة — الفلترة (تأكيد الحركة عدة ms) تحسن الدقة."],
+    ["كم مرة نقرأ PIR في الثانية عادة؟", ["كل ثانية","كل 50-100ms","كل ساعة","لا نقرأ"], 1, "50-100ms توازن بين الاستجابة والاستهلاك — أسرع من ذلك قد يسبب ضوضاء."],
+    ["لماذا نضع delay(1000) بعد الإقلاع في الحارس؟", ["لانتظار PIR يستقر (Warm-up)","لتسريع WiFi","لتوفير الطاقة","لا داعي"], 0, "PIR يحتاج ثواني لاستقرار أولي — تأخير قصير ضروري."],
+    ["ماذا يعني \"Idempotent\" في setState؟", ["استدعاؤها مرات عديدة لا يضر","مرة واحدة فقط","لا يمكن الاستدعاء","سريعة جداً"], 0, "استدعاء setState بنفس الحالة عدة مرات لا يسبب مشاكل — لكن الأفضل التحقق."],
+    ["أي مما يلي قد يسبب سلوكاً خاطئاً في State Machine؟", ["نسيان الانتقال من حالة لأخرى","استخدام switch/case","استخدام enum","استخدام millis"], 0, "عدم كتابة جميع الانتقالات الممكنة = النظام يعلق في حالة واحدة."]
+  ]
+},
+{
+  id: 8, title: "Web Server من الموبايل", icon: "🌐", short: "تحكم عبر المتصفح",
+  qs: [
+    ["ما هو Web Server؟", ["كمبيوتر يخدم صفحات ويب للعملاء","متصفح","بروتوكول اتصال","حساس"], 0, "Server يرد على طلبات HTTP من المتصفحات (عملاء)."],
+    ["على أي Port يعمل HTTP افتراضياً؟", ["21","80","443","8080"], 1, "Port 80 هو الافتراضي لـ HTTP — 443 لـ HTTPS."],
+    ["ما الفرق بين GET و POST؟", ["GET لجلب بيانات، POST لإرسالها","متطابقان","GET أسرع","POST أمن"], 0, "GET في URL (للعرض)، POST في body (للإرسال — كلمات سر، بيانات)."],
+    ["ما الدالة لبدء Web Server في ESP32؟", ["server.begin()","server.start()","server.init()","server.open()"], 0, "server.begin() بعد تحديد المنفذ WebServer server(80)."],
+    ["ما الدالة التي يجب استدعاؤها في loop()؟", ["server.handleClient()","server.run()","server.loop()","server.poll()"], 0, "handleClient() تستمع للطلبات الواردة — ضرورية باستمرار."],
+    ["ما الدالة التي تربط مساراً بدالة معالجة؟", ["server.on(\"/path\", handler)","server.route()","server.link()","server.add()"], 0, "server.on يربط مساراً (مثل \"/led/on\") بدالة تُستدعى عند الطلب."],
+    ["ما الدالة التي ترسل رداً للمتصفح؟", ["server.send(code, type, body)","server.reply()","server.respond()","server.write()"], 0, "server.send(200, \"text/html\", html) ترسل الرد كاملاً."],
+    ["ماذا يعني 200 OK؟", ["الطلب نجح","خطأ","إعادة توجيه","غير موجود"], 0, "200 = نجاح. 404 = غير موجود. 500 = خطأ داخلي."],
+    ["ما وظيفة IP Address؟", ["عنوان الجهاز على الشبكة","اسم المتصفح","كلمة سر","نوع WiFi"], 0, "IP مثل 192.168.1.45 — عنوان ESP32 على الشبكة المحلية."],
+    ["هل يمكن الوصول لـ Web Server من 4G؟", ["نعم مباشرة","لا — يحتاج نفس الواي فاي","نعم ببطء","فقط على iPhone"], 1, "Web Server المحلي يعمل فقط داخل نفس الشبكة — للتحكم من أي مكان نحتاج Cloud."],
+    ["ما وظيفة HTML؟", ["هيكل صفحة الويب","تنسيق البيانات","برمجة الخادم","اتصال WiFi"], 0, "HTML = لغة توصيف صفحة الويب — تُعرض في المتصفح."],
+    ["ما وظيفة JSON؟", ["تبادل البيانات بصيغة خفيفة","تنسيق HTML","برمجة ESP32","إطفاء الشاشة"], 0, "JSON صيغة خفيفة لتبادل البيانات بين الخادم والعميل — سهلة القراءة."],
+    ["أي مما يلي مثال على JSON صحيح؟", ["{\"temp\":25,\"led\":true}","temp=25","<temp>25</temp>","25,true"], 0, "JSON يستخدم أقواساً معرّفة — {key: value}."],
+    ["لماذا نستخدم setTimeout في JavaScript مع Web Server؟", ["لتحديث البيانات دورياً","لإطفاء الصفحة","لتسريع ESP32","لا داعي"], 0, "setInterval يحدث الصفحة تلقائياً كل N ثانية — للبيانات الحية."],
+    ["ما وظيفة fetch() في JavaScript؟", ["طلب HTTP للخادم","إغلاق الصفحة","تشفير البيانات","تشغيل WiFi"], 0, "fetch('/data').then(...) يطلب بيانات من مسار على ESP32."],
+    ["ماذا يحدث لو نسي handleClient() في loop؟", ["الخادم لا يستجيب","يعمل أسرع","يزيد الأمان","لا فرق"], 0, "handleClient ضرورية — بدونها لن يخدم ESP32 أي طلب."],
+    ["ما وظيفة PROGMEM في ESP32؟", ["تخزين في Flash (توفير RAM)","ضغط النص","تشفير","إطفاء"], 0, "PROGMEM يضع النصوص الكبيرة (HTML) في Flash بدل RAM — يوفر الذاكرة."],
+    ["أي مما يلي أفضل طريقة لتقديم HTML كبير؟", ["PROGMEM + R\"HTML(...)HTML\"","String concatenation","Serial.print","delay"], 0, "Raw String Literal في Flash — أنظف وأسرع وأوفر للذاكرة."],
+    ["ماذا تعني كلمة Client في Client-Server؟", ["العميل (المتصفح/الموبايل) الذي يطلب","الخادم","بروتوكول","شبكة"], 0, "Client = طالب المعلومة (المتصفح). Server = المُجيب (ESP32)."],
+    ["ما وظيفة Content-Type في الرد؟", ["يخبر المتصفح بنوع المحتوى (HTML/JSON)","يحدد الحجم","يرسل الصور","لا داعي"], 0, "text/html أو application/json — مهم للمتصفح."],
+    ["ماذا يفعل send_P بدل send؟", ["يرسل من Flash (PROGMEM)","أسرع مرتين","لا فرق","يحذف"], 0, "send_P للبيانات في Flash — توفر RAM."],
+    ["هل Web Server في ESP32 آمن؟", ["غير مشفر — لا تعرضه على الإنترنت","مشفر بالكامل","يحتاج كلمة سر افتراضياً","آمن تلقائياً"], 0, "بدون HTTPS، لا يُستخدم إلا داخل شبكة محلية موثوقة."],
+    ["ما وظيفة الأزرار (Buttons) في صفحة الويب؟", ["إرسال طلبات GET/POST لـ ESP32","تغيير اللون","إطفاء الصفحة","لا داعي"], 0, "كل زر يرسل طلباً لمسار (/led/on) يُنفذ الأمر."],
+    ["ما وظيفة 404 Not Found؟", ["المسار المطلوب غير موجود","نجاح","إعادة توجيه","خطأ في الاتصال"], 0, "404 = المسار غير معرّف على الخادم."],
+    ["هل يمكن استخدام Port آخر غير 80؟", ["نعم — مثل 8080","لا","فقط 80","فقط 443"], 0, "يمكن استخدام أي port متاح — 8080 شائع للتطوير."],
+    ["ماذا يفعل WebServer server(80)؟", ["ينشئ كائن Server على المنفذ 80","يتصل بالشبكة","يشغل WiFi","لا شيء"], 0, "المنشئ (constructor) — يحدد منفذ الاستماع."],
+    ["أي مما يلي يحتاج بيانات المستخدم؟", ["نموذج POST","مسار GET فقط","صفحة عرض","صورة"], 0, "POST يحمل البيانات في body — مناسب لكلمات السر، أوامر التحكم."],
+    ["لماذا نستخدم نفس GPIO 21/22 لـ OLED و I2C مع Web Server؟", ["كلاهما I2C — يتشاركان نفس الخطين","لا يمكن","يجب فصلهم","لا يهم"], 0, "I2C bus مشترك — كل جهاز له عنوان مختلف (0x3C للـ OLED)."],
+    ["ما أفضل طريقة لتحديث صفحة الويب تلقائياً؟", ["setInterval مع fetch كل N ثانية","إعادة التحميل يدوياً","إطفاء الصفحة","لا يمكن"], 0, "setInterval(updateUI, 2000) — كل ثانيتين يسأل /data."],
+    ["أي مما يلي مثال على استخدام Web Server في المنزل الذكي؟", ["التحكم في الإضاءة من المتصفح","قراءة الحرارة","فتح الباب","كل ما سبق"], 3, "Web Server يتيح التحكم بأي جهاز متصل بـ ESP32 عبر المتصفح."]
+  ]
+},
+{
+  id: 9, title: "Blynk Cloud", icon: "☁️", short: "تحكم من أي مكان",
+  qs: [
+    ["ما هو Blynk؟", ["منصة IoT سحابية جاهزة","شريحة ESP32","حساس","نوع WiFi"], 0, "Blynk منصة سحابية — تربط ESP32 بتطبيق موبايل جاهز للتحكم."],
+    ["ما ميزة Blynk الأساسية؟", ["تحكم من أي مكان في العالم عبر الإنترنت","أرخص من Web Server","أسرع WiFi","توفير طاقة"], 0, "يعمل عبر الإنترنت — بدون الحاجة لنفس الشبكة أو IP عام."],
+    ["ما هو Auth Token في Blynk؟", ["رمز سري يعرّف جهازك — لا يُشارك","كلمة سر WiFi","اسم المستخدم","نوع البيانات"], 0, "Auth Token = مفتاح جهازك — من يحصل عليه يقدر يتحكم به."],
+    ["هل يمكن مشاركة Auth Token مع الأصدقاء؟", ["نعم","لا — أبداً، فهو مفتاح جهازك","فقط مع المدرّس","حسب الحالة"], 1, "تسريب Auth Token = اختراق كامل لجهازك — سري تماماً."],
+    ["ما Virtual Pin في Blynk؟", ["طرف خيالي (V0-V255) يُربط بـ Widget","طرف حقيقي","اسم جهاز","مكتبة"], 0, "لا يحتاج الأسلاك — التواصل عبر السحابة."],
+    ["ما الدالة التي تُستدعى عند تغيير V0 من التطبيق؟", ["BLYNK_WRITE(V0)","BLYNK_SEND(V0)","BLYNK_READ(V0)","BLYNK_GET(V0)"], 0, "BLYNK_WRITE = استقبال من التطبيق (لكتابة القيمة)."],
+    ["ما الدالة التي ترسل قيمة للتطبيق؟", ["Blynk.virtualWrite(V0, value)","Blynk.send()","Blynk.push()","Blynk.write()"], 0, "virtualWrite يرسل البيانات لـ Widget مربوط بـ V0."],
+    ["ما وظيفة BlynkTimer؟", ["جدولة تنفيذ دوري بدلاً من delay()","عداد تنازلي","مؤقت للنوم","مؤقت للبطارية"], 0, "timer.setInterval(5000L, func) — يستدعي func كل 5 ثوانٍ."],
+    ["لماذا لا نستخدم delay() في loop() مع Blynk؟", ["يوقف Blynk.run() — يتعطل الاتصال","يطفئ الجهاز","يزيد السرعة","لا مشكلة"], 0, "Blynk يحتاج Blynk.run() باستمرار — delay يعطله."],
+    ["أين يجب حفظ Auth Token؟", ["في ملف secrets.h منفصل","في الكود مباشرة","في Serial","في README"], 0, "secrets.h + .gitignore — لا يرفع أبداً على GitHub."],
+    ["ما BLYNK_TEMPLATE_ID؟", ["معرّف Template من التطبيق","كلمة سر","اسم الجهاز","عنوان IP"], 0, "يظهر في Blynk Console — يُستخدم مع Auth Token."],
+    ["ما Widget في Blynk؟", ["عنصر واجهة في التطبيق (زر، سلايدر، gauge)","حساس","مكتبة","بروتوكول"], 0, "Switch / Slider / Gauge / Value Display — يربطها المستخدم بـ Virtual Pin."],
+    ["كيف نقرأ قيمة من التطبيق؟", ["param.asInt() أو param.asFloat()","Serial.read()","analogRead()","WiFi.get()"], 0, "داخل BLYNK_WRITE(V0) — param يحمل القيمة."],
+    ["ما وظيفة Blynk.logEvent()؟", ["إرسال إشعار للموبايل","تسجيل في Serial","طباعة","لا شيء"], 0, "Blynk.logEvent(\"Event Name\") — يظهر كـ Notification في التطبيق."],
+    ["أي مما يلي يمكن استخدامه للتحكم بدون إنترنت؟", ["Blynk يحتاج إنترنت — لا يعمل بدونه","Web Server محلي","BLE","كل من Web Server و BLE"], 3, "Blynk يعتمد على السحابة — بدائله المحلية هي Web Server و BLE."],
+    ["هل يمكن استخدام Blynk مع ESP32 بدون تطبيق؟", ["لا — يحتاج التطبيق","نعم مباشرة","نعم عبر API","لا داعي"], 0, "Blynk IoT App (Android/iOS) ضروري للتحكم المرئي."],
+    ["ماذا يعني Widget Switch في Blynk؟", ["مفتاح ON/OFF يرسل 0/1","شاشة عرض","سلايدر","رقم"], 0, "Switch = زر تبديل بسيط — يرسل 0 (OFF) أو 1 (ON)."],
+    ["ماذا يعني Widget Gauge؟", ["مؤشر يعرض قيمة (مثل عداد سرعة)","زر","سلايدر","شاشة"], 0, "Gauge = عرض قيمة بشكل بصري دائري — للحرارة، السرعة..."],
+    ["كيف نضعف استجابة البيانات للسحابة؟", ["زيادة أو تقليل setInterval","تغيير WiFi","تعديل الحساس","لا يمكن"], 0, "setInterval(ms, func) — كل ms تحدد تكرار الإرسال."],
+    ["لماذا نستخدم Blynk مع مشروع منزلي؟", ["تحكم من أي مكان + واجهة جاهزة","توفير الطاقة","أرخص من Web Server","لا داعي"], 0, "تحكم من أي مكان + واجهة رسومية جاهزة — يسرع التطوير."],
+    ["هل Blynk مجاني؟", ["نعم — نسخة مجانية للاستخدام الشخصي والتعليمي","لا","فقط مدفوع","فقط أول شهر"], 0, "Blynk IoT مجاني للاستخدام التعليمي (حتى حد معين من الأجهزة)."],
+    ["ماذا يحدث لو انقطع الإنترنت أثناء استخدام Blynk؟", ["Blynk.run() تحاول إعادة الاتصال تلقائياً","يتوقف النظام للأبد","يحترق","لا يحدث شيء"], 0, "Blynk بها Reconnection Logic تلقائي."],
+    ["ما وظيفة Blynk.syncVirtual(V0)؟", ["جلب قيمة V0 من السحابة","إرسال","حذف","إطفاء"], 0, "syncVirtual تطلب القيمة الحالية من السحابة — مفيد عند بدء التشغيل."],
+    ["ماذا يعني \"template\" في Blynk IoT؟", ["قالب يعرّف الجهاز (له Template ID)","نوع بيانات","شاشة","مكتبة"], 0, "Template يعرّف الجهاز والـ Datastreams — مرة واحدة قبل الإنشاء."],
+    ["لربط Blynk بـ ESP32 نحتاج:", ["WiFi + Auth Token + Template","فقط WiFi","فقط Auth Token","Battery"], 0, "Blynk يحتاج اتصال إنترنت + تعريف الجهاز بـ Token + Template."],
+    ["لماذا نستخدم Virtual Pins بدلاً من الأطراف الحقيقية؟", ["يمكن إرسال/استقبال بيانات متعددة عبر سحابة واحدة","أسرع","أرخص","لا داعي"], 0, "Virtual Pin = قناة بيانات واحدة لكل Widget — يمكن استخدام 256 قناة."],
+    ["هل يمكن استخدام Blynk و Web Server معاً؟", ["نعم — عبر FreeRTOS Tasks","لا","فقط أحدهما","يعتمد على ESP"], 0, "يمكن تشغيلهما بالتوازي — كل واحد على Task منفصل."],
+    ["ماذا يفعل Blynk.run()؟", ["يعالج الطلبات والاتصالات مع السحابة","يقرأ الحساسات","يشغل WiFi","لا شيء"], 0, "Blynk.run() ضرورية في loop — تدير الاتصال."],
+    ["ما مشكلة Blynk الرئيسية؟", ["يحتاج إنترنت — لا يعمل بدونه","بطيء","صعب","ليس مجاني"], 0, "بدون إنترنت، Blynk لا يعمل — لهذا نحتاج بدائل محلية."],
+    ["أي مما يلي مثال مشروع كامل يستخدم Blynk؟", ["مصباح ذكي يتحكم فيه من أي مكان","ساعة يد","حساس حرارة فقط","شاحن بطارية"], 0, "مصباح + ESP32 + Blynk = تحكم من أي مكان في العالم."]
+  ]
+},
+{
+  id: 10, title: "BLE — تحكم بدون راوتر", icon: "📶", short: "بلوتوث منخفض الطاقة",
+  qs: [
+    ["ما هو BLE؟", ["Bluetooth Low Energy — بلوتوث منخفض الطاقة","Bluetooth Legacy","Blue LED Effect","Basic Link Engine"], 0, "BLE بلوتوث حديث يوفر طاقة أكبر بكثير من Bluetooth Classic."],
+    ["ما الفرق الأساسي بين BLE و Classic؟", ["BLE يستهلك طاقة أقل بكثير","BLE أسرع","BLE مدى أطول","لا فرق"], 0, "BLE يوفر طاقة 100 مرة — مناسب للأجهزة الصغيرة."],
+    ["ما مدى BLE التقريبي؟", ["1 متر","حوالي 10 أمتار","100 متر","1 كيلومتر"], 1, "BLE مداه قصير (10-50 متر) — يوفر طاقة أكبر."],
+    ["هل يحتاج BLE راوتر؟", ["لا — اتصال مباشر مع الموبايل","نعم ضروري","فقط في البيت","فقط في العمل"], 0, "BLE اتصال مباشر — بدون WiFi أو راوتر."],
+    ["ما هو GATT في BLE؟", ["هيكل بيانات (Services + Characteristics)","شركة مصنعة","بروتوكول WiFi","مكتبة"], 0, "GATT ينظم البيانات في هيكل هرمي — كل خدمة تحتوي خصائص."],
+    ["ما هي Service في BLE؟", ["مجموعة من الخصائص ذات صلة (مثل LED Service)","خدمة إنترنت","بروتوكول","بطارية"], 0, "Service = مجموعة مهام (مثل التحكم في LED، أو قراءة حرارة)."],
+    ["ما هي Characteristic في BLE؟", ["خاصية قابلة للقراءة/الكتابة داخل Service","شركة","بروتوكول","حساس"], 0, "Characteristic = بيانات محددة (مثل \"LED State\") مع قيم وخصائص (Read/Write/Notify)."],
+    ["ما UUID في BLE؟", ["معرّف فريد (128-bit) لكل Service و Characteristic","اسم الشركة","اسم الجهاز","بروتوكول"], 0, "UUID = مثل رقم الهوية — يعرّف كل عنصر بشكل فريد."],
+    ["ما هو Advertising في BLE؟", ["إعلان الجهاز عن وجوده للعالم","البحث عن أجهزة","الكتابة","القراءة"], 0, "ESP32 يبث حزمة إعلان كل فترة — الموبايل يراها ويطلب الاتصال."],
+    ["ما وظيفة BLECharacteristicCallbacks::onWrite؟", ["تُستدعى عند كتابة قيمة في الخاصية","تُستدعى عند القراءة","عند الاتصال","لا تستدعى"], 0, "onWrite = يلتقط البيانات الجديدة من الموبايل."],
+    ["ما وظيفة BLECharacteristic::notify()؟", ["إرسال قيمة للمشتركين (Subscribed)","إطفاء","إعادة تعيين","مسح"], 0, "Notify = إرسال تحديث تلقائي — فعال بدلاً من قراءة متكررة."],
+    ["ماذا يعني Subscribe؟", ["الموبايل يطلب إشعارات عند تغيير القيمة","إلغاء الاتصال","شراء","إطفاء"], 0, "Subscribe + Notify = بيانات تتدفق تلقائياً من ESP32 إلى الموبايل."],
+    ["ما الدالة لتهيئة BLE؟", ["BLEDevice::init(\"Name\")","BLE.begin()","BLE.start()","BLE.setup()"], 0, "BLEDevice::init تعرّف ESP32 باسم — أساس BLE server."],
+    ["ما الدالة لإنشاء Service جديد؟", ["pServer->createService(UUID)","addService()","newService()","makeService()"], 0, "createService تنشئ خدمة داخل BLE server."],
+    ["ما وظيفة addDescriptor(new BLE2902())؟", ["تفعيل Notify للمشتركين","إطفاء","قراءة","حذف"], 0, "BLE2902 descriptor = مفتاح تفعيل Notify (Client Characteristic Configuration)."],
+    ["أي مما يلي نستخدمه لمعرفة عدد الموبايلات المتصلة؟", ["server->getConnectedCount()","WiFi.count()","Serial.available()","analogRead()"], 0, "getConnectedCount ترجع عدد الأجهزة المتصلة حالياً."],
+    ["لماذا BLE مفيد في المدن الذكية؟", ["يستهلك طاقة قليلة — يعمل على بطارية لسنوات","أسرع من 5G","أرخص","لا فائدة"], 0, "أجهزة استشعار في الشوارع على بطارية — BLE مثالي."],
+    ["ما الفرق بين BLE و Beacon؟", ["Beacon = إعلان فقط (بدون اتصال)","متطابقان","Beacon أسرع","لا فرق"], 0, "Beacon يبث فقط (مثل iBeacon) — لا يحتاج اتصال كامل."],
+    ["ماذا يفعل BLEDevice::getAdvertising()->start()؟", ["يبدأ الإعلان عن الجهاز","يتصل بالشبكة","يقرأ الحساسات","يطفي"], 0, "ضرورية — بدون advertising لا يجد الموبايل ESP32."],
+    ["هل يمكن أن يكون ESP32 Server و Client في نفس الوقت؟", ["نعم — بمعمارية صحيحة","لا","حسب الموديل","لا داعي"], 0, "ESP32 يمكنه ذلك — لكن إدارة معقدة. نبدأ بـ Server فقط."],
+    ["ما وظيفة BLECharacteristic::setValue(\"0\")؟", ["القيمة الأولية للخاصية","حذفها","تشفيرها","إطفاء"], 0, "setValue يضع القيمة الافتراضية — قبل أي اتصال."],
+    ["أي مما يلي يحتاج BLE؟", ["Smart Watch","AirPods","Smart Lock","كل ما سبق"], 3, "كل هذه الأجهزة تستخدم BLE للاتصال بالموبايل."],
+    ["ما ميزة BLE على WiFi للتحكم المحلي؟", ["طاقة أقل + بدون راوتر","أسرع نقل بيانات","مدى أطول","سعر أقل فقط"], 0, "BLE مثالي للأجهزة الصغيرة القريبة — لا يحتاج شبكة."],
+    ["لماذا BLE أكثر أماناً من Web Server المفتوح؟", ["مداه قصير + يمكن إضافة Pairing","أسرع","أرخص","لا فرق"], 0, "المدى 10م يحد الوصول — مع Pairing يصبح آمناً جداً."],
+    ["ماذا يفعل BLEAdvertising->addServiceUUID(UUID)؟", ["يضيف UUID للـ advertisement (يراه الموبايل)","يحذفه","يطفئ","لا داعي"], 0, "بدونه قد لا يظهر UUID للعميل — ضروري للبحث."],
+    ["ما مشكلة BLE الرئيسية؟", ["مدى قصير (10م)","بطيء","سعر مرتفع","لا مشكلة"], 0, "المدى القصير = تحكم داخل الغرفة فقط. للتحكم البعيد، نحتاج Cloud."],
+    ["أي مما يلي تطبيق لـ BLE في الصحة؟", ["قياس نبضات القلب لساعات ذكية","إضاءة منزل","شحن","لا شيء"], 0, "أجهزة مراقبة النبض تستخدم BLE لإرسال البيانات للموبايل."],
+    ["هل يمكن تغيير اسم ESP32 في BLE؟", ["نعم — عبر BLEDevice::init(\"NewName\")","لا","بالكود فقط","لا داعي"], 0, "الاسم يظهر للمستخدم في تطبيق البحث — اختياره جيداً مهم."],
+    ["ماذا يفعل BLEServer::onDisconnect؟", ["يستدعى عند قطع الاتصال — يمكن إعادة Advertising","يتصل تلقائياً","يحذف","لا داعي"], 0, "مهم لإعادة Advertising بعد قطع الاتصال."],
+    ["أي مما يلي مشروع كامل بـ BLE؟", ["قفل ذكي يفتح بالموبايل مباشرة","ساعة","حساس حرارة","كل ما سبق"], 3, "يمكن استخدام BLE في كل هذه التطبيقات — أو ما يشابهها."],
+    ["في BLE، أي مما يلي يحدد سرعة النقل؟", ["Connection Interval (يمكن تعديله)","WiFi","المدى","السعر"], 0, "Connection Interval = كل كم ms يتم تبادل البيانات (7.5ms-4s)."]
+  ]
+},
+{
+  id: 11, title: "مشروع المنزل الذكي", icon: "🏠", short: "3 طرق اتصال معاً",
+  qs: [
+    ["ما الهدف من مشروع المنزل الذكي؟", ["دمج 3 طرق اتصال (Web/Blynk/BLE)","إطفاء كل شيء","شحن بطارية","لا هدف"], 0, "تكامل متعدد الطبقات — استخدام الأنسب حسب الموقف."],
+    ["أي طريقة الأفضل للتحكم داخل البيت؟", ["Web Server (شبكة محلية — سريع)","Blynk","BLE","كلها نفس الشيء"], 0, "داخل البيت: WiFi موجود — Web Server أسرع استجابة (بدون سحابة)."],
+    ["أي طريقة الأفضل للتحكم من الخارج (بلد آخر)؟", ["Web Server","Blynk Cloud","BLE","لا توجد"], 1, "Blynk يعمل عبر الإنترنت — لا يحتاج نفس الشبكة."],
+    ["أي طريقة الأفضل بدون إنترنت وراوتر؟", ["Web Server","Blynk","BLE (اتصال مباشر)","لا شيء"], 2, "BLE الاتصال الوحيد الذي لا يحتاج راوتر ولا إنترنت."],
+    ["ما هو Failover في هذا السياق؟", ["التبديل التلقائي بين طرق الاتصال عند فشل واحدة","فشل النظام","إعادة التشغيل","حذف"], 0, "Failover = لو انقطع WiFi، ينتقل لـ BLE تلقائياً — استمرارية الخدمة."],
+    ["كيف يختار ESP32 أفضل طريقة اتصال؟", ["بفحص البيئة (WiFi موجود؟ إنترنت متاح؟)","عشوائياً","يدوياً من المستخدم","لا يختار"], 0, "detectBestMode() تفحص WiFi والإنترنت — تختار الأنسب."],
+    ["لماذا نستخدم millis() بدلاً من delay() في النظام الكامل؟", ["لا يوقف باقي المهام","أسرع","أرخص","لا داعي"], 0, "delay يوقف كل شيء — millis يتيح مهام أخرى بالتوازي."],
+    ["ما وظيفة Separation of Concerns؟", ["تقسيم الكود لدوال صغيرة كل منها مسؤول عن شيء واحد","إطفاء النظام","تسريع الكود","توفير الذاكرة"], 0, "كل دالة مسؤولة عن مهمة واحدة — يسهل القراءة والتعديل."],
+    ["في مشروع المنزل الذكي، ما وظيفة setLight()؟", ["دالة مركزية تُشغّل/تُطفيء الإضاءة — تُستدعى من أي طريقة اتصال","قراءة الحساس","إطفاء WiFi","لا شيء"], 0, "دالة منطق موحدة — كل واجهة اتصال تستدعيها."],
+    ["لماذا نفصل الكود إلى ملفات (web_server.h, blynk_handler.h)؟", ["لتنظيم الكود — كل ملف له مسؤولية واحدة","لأن Arduino يفرض ذلك","لتسريع الكود","لا داعي"], 0, "كود مقسم = أسهل قراءة وصيانة + إعادة استخدام."],
+    ["ما أفضل طريقة لتحديث الشاشة في نظام متعدد المهام؟", ["Task منفصل للشاشة (Display Task)","داخل كل Task","عشوائياً","لا نحدث"], 0, "فصل مسؤولية العرض في Task مستقل — يقلل التعارض."],
+    ["ما أفضل طريقة لتوفير الطاقة في المنزل الذكي؟", ["Deep Sleep عند عدم الحاجة + Wake on Interrupt","إطفاء كل شيء","تقليل الجهد","لا يمكن"], 0, "Deep Sleep يستهلك μA — يستيقظ عند حدث (حركة، زر)."],
+    ["ماذا يعني \"Modular Code\"؟", ["كود مقسم لوحدات صغيرة","كود طويل","كود مشفر","كود مخفي"], 0, "Modules = وحدات مستقلة — يسهل الفهم والاختبار والتعديل."],
+    ["أي مما يلي يجب أن يعمل حتى لو انقطع WiFi؟", ["الإضاءة المحلية + PIR + Buzzer","Blynk فقط","الشاشة فقط","لا شيء"], 0, "الوظائف المحلية تعمل دائماً — الاتصالات السحابية إضافية."],
+    ["كيف يعرف ESP32 أن الإنترنت عاد؟", ["بفحص دوري (ping أو اتصال)","يستخدم الحظ","لا يعرف","يدوياً"], 0, "فحص دوري كل N ثانية — عند النجاح يعيد الاتصال بالسحابة."],
+    ["لماذا نستخدم enum للأنماط (MODE_WEB, MODE_BLYNK, MODE_BLE)؟", ["للوضوح وتجنب الأخطاء","لتسريع","للتوفير","لا داعي"], 0, "أسماء واضحة أفضل من أرقام مجهولة (0,1,2)."],
+    ["أي مما يلي ضروري عند استخدام 3 طرق اتصال؟", ["إدارة أولويات — أي Task يشغل Core","لا شيء","إطفاء WiFi","لا داعي"], 0, "FreeRTOS Tasks — كل طريقة اتصال على Task قد تكون على Core مختلف."],
+    ["ما وظيفة الأزرار الفيزيائية في نظام Multi-Mode؟", ["التحكم المحلي عند غياب الاتصالات","تسريع النظام","إطفاء","لا فائدة"], 0, "أزرار محلية = تحكم دائماً يعمل — لا يعتمد على الشبكة."],
+    ["كيف نحافظ على استجابة سريعة لو احتاج المستخدم التحكم؟", ["استخدام Core 1 للمهام الحرجة — ترك Core 0 للاتصالات","الكل في Core 0","لا داعي","لا فرق"], 0, "المهام الحرجة (التحكم، الأمان) في Core 1، الاتصالات في Core 0."],
+    ["ماذا يحدث لو فشل Blynk في الإقلاع؟", ["ESP32 يستمر في العمل محلياً + إعادة محاولة","يتوقف تماماً","يحترق","لا شيء"], 0, "Failover: يعمل محلياً، وعند عودة الإنترنت يتصل بـ Blynk."],
+    ["أي مما يلي أفضل ممارسة للأمان؟", ["secrets.h + عدم مشاركة Auth Token","كلمات سر في الكود","شبكة مفتوحة","كل شيء مكشوف"], 0, "الأمان أولاً — كل الأسرار في ملف منفصل."],
+    ["كيف نحافظ على سرعة النظام مع زيادة المكونات؟", ["تقسيم العمل إلى Tasks متوازية","زيادة الجهد","تقليل الكود","لا حل"], 0, "التوازي (Parallelism) عبر FreeRTOS — يمنع تأخير المهام."],
+    ["ماذا يعني \"Single Point of Failure\"؟", ["جزء واحد فشله يوقف كل شيء","نقطة فشل متعددة","حالة طبيعية","بروتوكول"], 0, "مثال: كل الكود في loop = نقطة فشل واحدة. Multi-Task + Failover يحل المشكلة."],
+    ["ما وظيفة BlynkTimer في نظام Multi-Mode؟", ["جدولة إرسال بيانات دوري للسحابة","إطفاء","تشغيل WiFi","لا شيء"], 0, "timer.setInterval(ms, func) — يرسل البيانات بشكل دوري دون تعطيل."],
+    ["هل يمكن التحكم في المنزل من موبايلين في نفس الوقت؟", ["نعم — عبر Blynk يمكن ربط أكثر من مستخدم","لا","فقط واحد","حسب النسخة"], 0, "Blynk تدعم مشاركة الأجهزة بين عدة مستخدمين (بصلاحيات)."],
+    ["أي مما يلي ميزة استخدام 3 طرق اتصال؟", ["مرونة عالية — كل طريقة تعمل في سيناريو مختلف","سعر أعلى فقط","تعقيد فقط","لا ميزة"], 0, "المرونة = استمرارية الخدمة في كل الظروف."],
+    ["ما وظيفة detectBestMode() في نظام Multi-Mode؟", ["تختار أفضل طريقة اتصال متاحة","تطفئ كل شيء","تحذف الكود","لا شيء"], 0, "دالة أساسية — تفحص البيئة وتبدأ الأنسب."],
+    ["ماذا يحدث عند انقطاع الكهرباء والعودة؟", ["ESP32 يعيد الإقلاع ويعيد الاتصال + إعادة المزامنة","لا شيء","يحترق","يفقد كل الكود"], 0, "نظام Robust يستعيد حالته تلقائياً بعد إعادة التشغيل."],
+    ["أي مما يلي أساسي في المنزل الذكي؟", ["الأمان (تشفير + Auth Token)","الجمال فقط","السعر الأدنى","كل ما سبق مشترك"], 0, "الأمان أولاً — خصوصاً للتحكم في الأبواب والأجهزة."],
+    ["ما الذي يُحوّل المنزل من \"عادي\" إلى \"ذكي\"؟", ["التحكم والمراقبة عبر الإنترنت + Automation","اللون","الحجم","السعر"], 0, "القدرة على التحكم عن بُعد + الأتمتة = ذكاء."],
+    ["أي مما يلي أفضل ممارسة في مشاريع Multi-Mode؟", ["Log كامل + Failover + أزرار محلية","كل شيء في loop","بدون logging","بدون Failover"], 0, "ثلاثة أعمدة: قابلية التشخيص + الاستمرارية + تحكم احتياطي."]
+  ]
+},
+{
+  id: 12, title: "Neopixel WS2812B", icon: "🌈", short: "شريط LED ذكي",
+  qs: [
+    ["ما الذي يميز WS2812B عن LED عادي؟", ["كل لمبة فيها شريحة تحكم — مستقلة","أرخص","أسرع","أكبر"], 0, "كل لمبة تحتوي شريحة تحكم صغيرة — يمكن التحكم بلونها بشكل مستقل."],
+    ["كم بت تحتاج كل لمبة WS2812B؟", ["8 بت","16 بت","24 بت (R+G+B)","32 بت"], 2, "24 بت = 8 للأحمر + 8 للأخضر + 8 للأزرق = 16.7 مليون لون."],
+    ["كم طرفاً يحتاج شريط Neopixel للتوصيل؟", ["2","3 (VCC + GND + Data)","4","5"], 1, "3 أطراف فقط — للطاقة والبيانات."],
+    ["ما الجهد الذي يعمل به WS2812B؟", ["3.3V","5V","12V","1.8V"], 1, "5V — لذلك قد تحتاج Level Shifter من 3.3V لـ ESP32."],
+    ["لماذا نحتاج Level Shifter بين ESP32 و Neopixel؟", ["ESP32 يخرج 3.3V وNeopixel يحتاج 5V على DIN","لتقليل الضوضاء","لزيادة السرعة","لا نحتاج"], 0, "بدون Level Shifter، قد يعمل بشكل غير مستقر أو لا يعمل."],
+    ["ما الحد الأقصى لاستهلاك لمبة WS2812B واحدة؟", ["5 mA","20 mA","60 mA (أبيض كامل)","500 mA"], 2, "60mA عند الأبيض الكامل — حساب الطاقة مهم جداً."],
+    ["شريط 30 لمبة يستهلك كحد أقصى:", ["500 mA","1 A","حوالي 1.8 A","10 A"], 2, "30 × 60mA = 1800mA = 1.8 أمبير — يحتاج مصدر خارجي قوي."],
+    ["ما المكتبة الشائعة للتحكم في Neopixel؟", ["LED.h","FastLED","Neo.h","Color.h"], 1, "FastLED — سريعة وقوية وتدعم العديد من أنواع LEDs."],
+    ["ما وظيفة fill_solid(leds, N, color)؟", ["يملأ كل LEDs بلون واحد","يحذف الشريط","يطفئ","لا شيء"], 0, "دالة FastLED لملء الشريط بلون موحد."],
+    ["ما وظيفة FastLED.show()؟", ["ترسل البيانات فعلياً للشريط","تطفئ","تحذف","لا شيء"], 0, "بدونها لا يظهر أي تغيير — تعتبر مثل display() في OLED."],
+    ["ما COLOR_ORDER الصحيح لـ WS2812B؟", ["RGB","BRG","GBR","GRB"], 3, "GRB — أخضر ثم أحمر ثم أزرق (بترتيب Bytes داخل البروتوكول)."],
+    ["ما وظيفة CHSV في FastLED؟", ["تعريف لون بصيغة Hue/Saturation/Value (تدرج)","تحويل RGB","حذف","إطفاء"], 0, "CHSV أسهل لتوليد التدرجات — FastLED يحولها إلى RGB تلقائياً."],
+    ["ما وظيفة fill_rainbow(leds, N, hue, delta)؟", ["يملأ الشريط بتدرج قوس قزح","يحذف","يطفئ","لا شيء"], 0, "تأثير Rainbow — كل لمبة بلون مختلف."],
+    ["ماذا يفعل fadeToBlackBy(leds, N, amount)؟", ["يعتّم تدريجياً (لعمل ذيل للنقطة)","يطفئ كل شيء فوراً","يزيد السطوع","لا شيء"], 0, "مفيد لتأثير Chase — اللمبات القديمة تخف تدريجياً."],
+    ["لماذا نستخدم millis() بدل delay() في التأثيرات؟", ["حركة ناعمة بدون إيقاف باقي الكود","أسرع","أرخص","لا داعي"], 0, "التأثيرات تحتاج تحديثاً مستمراً — delay يعطلها."],
+    ["ماذا يفعل beatsin8()؟", ["دالة جيبية تعطي قيمة 0-255 بنعومة","تحذف","تطفئ","تضيء"], 0, "مفيدة لتأثير Breathing — نبض ناعم."],
+    ["ما أفضل طريقة لحساب طاقة الشريط؟", ["عدد LEDs × 60mA (أقصى)","عدد LEDs × 1mA","عدد LEDs ÷ 60","لا حساب"], 0, "60mA لللمبة عند الأبيض الكامل — للمشاريع الآمنة احسب الحد الأقصى."],
+    ["لماذا نضع مقاومة 470Ω على خط DIN؟", ["لحماية من التذبذبات","لزيادة الجهد","لتقليل الاستهلاك","لا داعي"], 0, "المقاومة الصغيرة تحمي الشريحة من تذبذبات خط البيانات."],
+    ["لماذا نضع مكثف 1000µF بين VCC و GND؟", ["لتثبيت الجهد وتقليل التذبذب","لإطفاء الشريط","لتسريع","لا داعي"], 0, "المكثف يمنع انخفاض الجهد المفاجئ عند تشغيل كل LEDs."],
+    ["هل يمكن تشغيل شريط 30 لمبة من USB ESP32؟", ["نعم مباشرة","لا — قد يتلف USB أو اللوحة (تيار عالٍ)","نعم بأمان","حسب الشركة"], 1, "USB يوفر 500mA فقط — 1.8A يتلفه أو يتلف ESP32."],
+    ["أي مما يلي أفضل طريقة لتشغيل شريط طويل؟", ["مصدر 5V خارجي + GND مشترك مع ESP32","USB ESP32","بطارية صغيرة","لا مصدر"], 0, "مصدر خارجي مناسب + توصيل GND المشترك ضروري."],
+    ["أي مما يلي يمكن صناعته بـ Neopixel؟", ["إضاءة غرفة ديناميكية","VU Meter موسيقي","زينة حفلات","كل ما سبق"], 3, "Neopixel مثالي لكل هذه التطبيقات."],
+    ["ما وظيفة LED_TYPE WS2812B في FastLED؟", ["تعريف نوع الشريط","تعريف اللون","تعريف السرعة","لا داعي"], 0, "بعض الشرائط لها بروتوكولات مختلفة (APA102، WS2811...)."],
+    ["ماذا يحدث لو نسيت FastLED.show()؟", ["لا تظهر أي تغييرات","يعمل أسرع","يزيد السطوع","لا شيء"], 0, "show() تنقل البيانات فعلياً — بدونها التغييرات في الذاكرة فقط."],
+    ["ما وظيفة setBrightness(100) في FastLED؟", ["ضبط السطوع الكلي (0-255)","تشغيل","إطفاء","لا شيء"], 0, "تحدد الحد الأقصى للسطوع — مهم لتوفير الطاقة."],
+    ["أي مما يلي يمكن استخدامه بدلاً من FastLED؟", ["Adafruit_NeoPixel","LiquidCrystal","WiFi.h","Servo.h"], 0, "Adafruit_NeoPixel بديل بسيط — لكن FastLED أقوى."],
+    ["ماذا يفعل map(value, in_min, in_max, out_min, out_max)؟", ["تحويل قيمة من مدى لمدى","حذف","إطفاء","لا شيء"], 0, "مفيد لتحويل قراءة حساس إلى مدى لون أو سطوع."],
+    ["لماذا نستخدم CHSV بدل CRGB للتأثيرات؟", ["أسهل لتوليد التدرجات والألوان الزاهية","أسرع","أرخص","لا داعي"], 0, "Hue 0-255 يعني 256 لوناً بسهولة — CRGB يحتاج حساب ثلاثي."],
+    ["أي مما يلي مثال على تأثير احترافي؟", ["Rainbow متحرك","Chase بذيل","Breathing","كل ما سبق"], 3, "كل هذه التأثيرات شائعة في مشاريع Neopixel الاحترافية."],
+    ["في مشروع VU Meter، ما المكونات الإضافية المطلوبة؟", ["ميكروفون (MAX9814) + Neopixel","شاشة","سيرفو","RFID"], 0, "الصوت يحرك الألوان — تجربة بصرية ممتعة."]
+  ]
+},
+{
+  id: 13, title: "MAX9814 — الجهاز يسمع", icon: "🎤", short: "مكبر ميكروفون + VU Meter",
+  qs: [
+    ["ما وظيفة MAX9814؟", ["مضخم ميكروفون مع AGC","حساس حرارة","مكبر صوت","شاشة"], 0, "يجمع ميكروفون + مضخم + AGC — إشارة جاهزة للـ ADC."],
+    ["ما الذي يقيسه الميكروفون أساساً؟", ["موجات الصوت (اهتزازات الهواء)","الضوء","الحرارة","الضغط"], 0, "الصوت = اهتزاز جزيئات الهواء — الميكروفون يحوله لإشارة كهربائية."],
+    ["لماذا نحتاج مضخم (Amplifier)؟", ["إشارة الميكروفون ضعيفة جداً (millivolts)","الصوت عالٍ","لتسريع","لأسباب جمالية"], 0, "بدون تضخيم، ADC لا يستطيع قراءة الإشارة الضعيفة."],
+    ["ما هو AGC في MAX9814؟", ["Automatic Gain Control — تكبير تلقائي حسب شدة الصوت","نوع حساس","بروتوكول","مكتبة"], 0, "يكيّف التكبير تلقائياً — لا يقطع الإشارة العالية ولا يضيع الهادئة."],
+    ["كم ديسيبل يضخّم MAX9814؟", ["10 dB","30 dB","60 dB","100 dB"], 2, "60 dB = تضخيم 1000 مرة — يحول mV إلى V."],
+    ["أي مجموعة ADC تستخدم مع MAX9814 و WiFi؟", ["ADC1 (مثل GPIO 34, 35)","ADC2","كلتاهما","لا ADC"], 0, "ADC1 آمنة مع WiFi — ADC2 تتعارض."],
+    ["لماذا نستخدم GPIO 34 وليس GPIO 25؟", ["34 من ADC1 (يعمل مع WiFi) و25 من ADC2 (يتعارض)","34 أسرع","25 غير موجود","أرخص"], 0, "ADC1 = 32,33,34,35,36,39. ADC2 = 0,2,4,12,13,14,15,25,26,27."],
+    ["كم قيمة analogRead عند الصمت؟", ["0","حوالي 2048 (منتصف 12-bit)","4095","100"], 1, "الإشارة الصوتية تتأرجح حول المنتصف (1.65V ≈ 2048 من 4095)."],
+    ["دقة ADC ESP32 افتراضياً:", ["8-bit (0-255)","10-bit (0-1023)","12-bit (0-4095)","16-bit (0-65535)"], 2, "12-bit افتراضي — يمكن تعديله بـ analogReadResolution()."],
+    ["كيف نحسب شدة الصوت (Amplitude)؟", ["maxVal - minVal (الفرق)","maxVal + minVal","maxVal فقط","minVal فقط"], 0, "الفرق بين أعلى وأدنى قراءة خلال فترة قصيرة = سعة الموجة."],
+    ["لماذا نأخذ 50 قراءة سريعة؟", ["للاستيلاء على موجة الصوت الكاملة","لتسريع","للتوفير","لا داعي"], 0, "الصوت يتأرجح بسرعة — نأخذ عينات كثيرة في وقت قصير."],
+    ["ما دالة map(value, 100, 1500, 0, 255)؟", ["تحويل مدى الصوت إلى سطوع 0-255","حذف","إطفاء","لا شيء"], 0, "تحويل القراءة الخام إلى مستوى مناسب لعرض VU."],
+    ["ما Smoothing في VU Meter؟", ["تنعيم القيم (Moving Average)","حذف","إطفاء","لا داعي"], 0, "smooth = smooth*0.7 + new*0.3 — يقلل الاهتزاز."],
+    ["ماذا يفعل noise floor؟", ["أقل قيمة تُعتبر صمتاً","مستوى الضوضاء","كل ما سبق","لا شيء"], 0, "أي قراءة أقل من noise floor = صمت — يعتمد على بيئتك."],
+    ["لماذا لا نضع MAX9814 قرب Buzzer؟", ["يلتقط صوته نفسه — Feedback","يحترق","يزيد الحرارة","لا داعي"], 0, "Feedback Loop = صرير مزعج لا يتوقف."],
+    ["ما الجهد التشغيلي لـ MAX9814؟", ["2.7V - 5.5V","12V فقط","220V","1.5V"], 0, "مرن — لكن استخدم 3.3V مع ESP32 لتجنب توصيل 5V على ADC."],
+    ["لماذا نستخدم 3.3V بدلاً من 5V لـ MAX9814؟", ["خرج 5V قد يتلف ADC ESP32 (3.3V فقط)","5V ممنوع","3.3V أرخص","لا فرق"], 0, "خرج المضخم يتأرجح حول VCC/2 — 5V قد يصل لـ 5V > 3.3V."],
+    ["ماذا يفعل analogReadResolution(12)؟", ["يضبط دقة ADC إلى 12-bit","يطفئ ADC","يزيد السرعة","لا شيء"], 0, "افتراضي في ESP32 لكن جيد للتأكيد — قيمة 0-4095."],
+    ["أي مما يلي تطبيق للميكروفون في المنزل الذكي؟", ["الكشف عن صراخ الأطفال","مراقبة الضوضاء","الكشف عن الباب (طرق)","كل ما سبق"], 3, "الميكروفون يمكن استخدامه في العديد من التطبيقات الصوتية."],
+    ["ماذا يفعل digitalWrite(BUZZER, HIGH)؟", ["يشغّل Buzzer (لو Active)","يطفئه","يقرأه","لا شيء"], 0, "لو Buzzer Active، HIGH يشغّله مباشرة."],
+    ["ما وظيفة tone(pin, freq, duration)؟", ["توليد نغمة بتردد ومدة محددة","إطفاء","تسريع","لا شيء"], 0, "للبازر Passive — تردد Hz والمدة ms."],
+    ["ما VU Meter؟", ["عرض بصري لشدة الصوت","مقياس حرارة","حساس","شاشة"], 0, "VU = Volume Unit — أعمدة أو LEDs تتفاعل مع الصوت."],
+    ["أي مما يلي أفضل مزيج لمشروع VU؟", ["MAX9814 + Neopixel + ESP32","DHT11 + Buzzer","Servo + LED","PIR فقط"], 0, "الميكروفون يقرأ الصوت، Neopixel يعرضه — تجربة ممتعة."],
+    ["لماذا VU Meter مع Neopixel يعطي انطباعاً احترافياً؟", ["ألوان متحركة تتفاعل مع الموسيقى","أرخص","أبسط","لا داعي"], 0, "التفاعل الصوتي-البصري ممتع وجذاب."],
+    ["ماذا يفعل ledcWriteTone() في ESP32؟", ["توليد نغمة (بديل tone)","قراءة","إطفاء","لا شيء"], 0, "مفيد لو أردت التحكم في الترددات المتعددة."],
+    ["لماذا MAX9814 أفضل من ميكروفون Arduino العادي؟", ["AGC + مضخم مدمج + دقة أعلى","أرخص","أسرع WiFi","لا فرق"], 0, "الميكروفون العادي يعطي إشارة ضعيفة — MAX9814 يعطي إشارة نظيفة جاهزة."],
+    ["ما مشكلة الاستخدام في مكان صاخب؟", ["الإشارة قد تقطع — اضبط NOISE_FLOOR","يعمل أفضل","يزيد الحساسية","لا مشكلة"], 0, "المكان الصاخب = ضوضاء عالية → اضبط العتبات."],
+    ["أي مما يلي مشروع كامل بـ MAX9814؟", ["مصباح موسيقي (يتفاعل مع الصوت)","ساعة","حساس حركة","RFID"], 0, "مصباح يضيء بألوان تتغير حسب الموسيقى — مشروع شائع وممتع."],
+    ["ماذا يفعل micros() بدل millis()؟", ["يعطي دقة أعلى (ميكروثانية)","أسرع","أرخص","لا فرق"], 0, "micros للقياسات السريعة — مفيد لقراءة الصوت (10ms = 10000μs)."],
+    ["ماذا يحدث لو نسي analogReadResolution؟", ["يستخدم 12-bit افتراضياً (يعمل)","لا يعمل","يزيد السرعة","لا شيء"], 0, "افتراضي 12-bit — الاستدعاء للتأكيد فقط."]
+  ]
+},
+{
+  id: 14, title: "Joystick + FreeRTOS", icon: "⚡", short: "مهام متوازية",
+  qs: [
+    ["ما هو FreeRTOS؟", ["نظام تشغيل لحظي (Real-Time OS)","نوع من الحساسات","بروتوكول","لغة برمجة"], 0, "FreeRTOS = نظام تشغيل مصغر متعدد المهام — مدمج في ESP32."],
+    ["ما هو Task في FreeRTOS؟", ["دالة تعمل بشكل مستقل ومتوازٍ","نوع بيانات","حساس","بروتوكول"], 0, "كل Task = دالة لها مكدس (Stack) مستقل — تعمل بالتوازي."],
+    ["كم نواة (Core) في ESP32؟", ["1","2 (Core 0 و Core 1)","4","8"], 1, "Dual-Core — يمكن لكل نواة تنفيذ Task مستقل."],
+    ["ما الدالة لإنشاء Task على نواة محددة؟", ["xTaskCreatePinnedToCore()","createTask()","newTask()","addTask()"], 0, "الدالة القياسية لـ FreeRTOS — تثبت Task على Core 0 أو 1."],
+    ["لماذا نستخدم vTaskDelay() بدلاً من delay()؟", ["vTaskDelay يحرر المعالج لمهام أخرى","vTaskDelay أسرع","أرخص","لا فرق"], 0, "delay يوقف كل شيء — vTaskDelay ينوم Task فقط."],
+    ["ما وحدة vTaskDelay؟", ["milliseconds / portTICK_PERIOD_MS","ثوانٍ","ميكروثانية","دقائق"], 0, "مثال: vTaskDelay(500 / portTICK_PERIOD_MS) — 500ms."],
+    ["Core 0 في ESP32 مخصص لـ:", ["مهام WiFi و BLE تلقائياً","كل شيء","الحساسات","الشاشة"], 0, "Core 0 مشغول بمهام النظام — Core 1 للمستخدم."],
+    ["لماذا نستخدم Core 1 للمهام الثقيلة؟", ["لأن Core 0 مشغول بالشبكة","Core 1 أسرع","Core 0 ممنوع","لا فرق"], 0, "تفادي تعارض المهام = استقرار + أداء أفضل."],
+    ["ماذا تعني كلمة volatile في تعريف متغير؟", ["قد يتغير من مكان آخر (Task) — لا يُخزَّن في register","ثابت","سريع","لا شيء"], 0, "ضروري للمتغيرات المشتركة بين Tasks."],
+    ["ماذا يحدث لو استخدمت delay() داخل Task؟", ["يعطل جميع Tasks على نفس النواة","يعمل بشكل أسرع","لا يعمل","يزيد السرعة"], 0, "delay يوقف النواة كلها — Task آخر لن يعمل."],
+    ["ما وظيفة دالة loop() عند استخدام FreeRTOS؟", ["يمكن أن تبقى فارغة (المهام تعمل تلقائياً)","تعمل كالمعتاد","تتوقف","لا شيء"], 0, "بعد إنشاء Tasks في setup()، loop() قد تكون فارغة أو فيها مهام ثانوية."],
+    ["ما معنى Priority في Task؟", ["أولوية التنفيذ (1-25)","طول الكود","عدد المتغيرات","لا شيء"], 0, "أعلى Priority = أولوية التنفيذ. Control Task عادة أعلى من Display."],
+    ["ماذا يحدث لو تساوى Priority بين Tasks؟", ["تعمل بالتناوب (Round-Robin)","واحدة تتوقف","لا تعمل","لا شيء"], 0, "FreeRTOS يوزع الوقت بينهما — كلاهما يعمل."],
+    ["ما Stack Size في Task؟", ["حجم الذاكرة المخصصة للمتغيرات المحلية","حجم الكود","سعة التخزين","لا شيء"], 0, "عادة 2048-8192 bytes — أكثر للمهام التي تستخدم مكتبات."],
+    ["ما وظيفة Semaphore في FreeRTOS؟", ["تنظيم الوصول لمورد مشترك","إطفاء","تسريع","لا شيء"], 0, "Semaphore = إشارة — تضمن Task واحد فقط يستخدم المورد في وقت واحد."],
+    ["ما وظيفة Mutex؟", ["قفل مورد لاستخدام Task واحد","حذف","إطفاء","لا شيء"], 0, "Mutex = Mutual Exclusion — مثل Semaphore لكن بملكية."],
+    ["ما Queue في FreeRTOS؟", ["طابور لتبادل البيانات بين Tasks","نوع بيانات","حساس","لا شيء"], 0, "Queue = صف — Task يضع بيانات، Task آخر يقرأها بأمان."],
+    ["ما وظيفة xQueueSend()؟", ["إرسال بيانات لطابور","حذف","إطفاء","لا شيء"], 0, "تضع بيانات في Queue — Task آخر يستقبلها بـ xQueueReceive()."],
+    ["لماذا نحتاج FreeRTOS في المشاريع الكبيرة؟", ["تنظيم + استغلال النواتين + توازي حقيقي","لتسريع WiFi فقط","لأسباب جمالية","لا داعي"], 0, "FreeRTOS يحول الكود من متسلسل إلى متوازٍ — أداء أفضل."],
+    ["ما تحديات FreeRTOS؟", ["إدارة الحالة المشتركة + تعقيد التصحيح","لا تحديات","أبطأ دائماً","لا شيء"], 0, "State Management + Debugging أصعب — لكن المكاسب تستحق."],
+    ["ما Joystick؟", ["مقاومتان متغيرتان + زر (X, Y, SW)","شاشة","LED","حساس حرارة"], 0, "Joystick = 2 potentiometers (X و Y) + زر ضغط."],
+    ["لماذا يُفضل FreeRTOS مع Joystick؟", ["قراءة الجوائستيك باستمرار + تحديث الشاشة بالتوازي","أرخص","أسرع","لا داعي"], 0, "المهام المتوازية = استجابة فورية للتحديث والتحكم."],
+    ["ماذا يقيس X في Joystick؟", ["المحور الأفقي","المحور العمودي","الزر","الحرارة"], 0, "X = المحور الأفقي (يسار-يمين)، Y = الرأسي (أعلى-أسفل)."],
+    ["ماذا يقيس SW في Joystick؟", ["الزر (ضغط الزر)","المحور X","المحور Y","لا شيء"], 0, "SW = Switch — زر داخلي عند الضغط على المقبض."],
+    ["ما القيمة المتوسطة لـ Joystick في الوضع الهادئ؟", ["0","حوالي 2048","4095","100"], 1, "Joystick في المنتصف = analogRead ≈ 2048 (نصف 4095)."],
+    ["لماذا نستخدم INPUT_PULLUP مع SW؟", ["لتثبيت الحالة الافتراضية HIGH (بدون مقاومة خارجية)","لتسريع","لتوفير الطاقة","لا داعي"], 0, "Pull-up يمنع الحالة العائمة — القراءة مستقرة."],
+    ["ماذا يحدث لو نسيت vTaskDelay في Task؟", ["Task يحتكر النواة (Watchdog يعيد التشغيل)","يعمل أسرع","لا شيء","ينطفئ"], 0, "Task بدون تأخير = Watchdog Timer يعيد تشغيل ESP32 — مهم جداً!"],
+    ["ما ميزة تشغيل Tasks على نواتين مختلفتين؟", ["توازي حقيقي — كل نواة تعمل بشكل مستقل","أبطأ","أرخص","لا فرق"], 0, "نواتان = فعلياً تنفيذ متوازٍ (Parallelism) وليس تشاركياً."],
+    ["ماذا يفعل xTaskCreate() (بدون PinnedToCore)؟", ["Task يعمل على أي نواة متاحة","Core 0 فقط","Core 1 فقط","لا تعمل"], 0, "تترك FreeRTOS يختار النواة — أقل تحديداً."],
+    ["أي مما يلي أفضل ممارسة في FreeRTOS؟", ["مهام صغيرة + vTaskDelay + volatile","Task واحدة طويلة","delay كثير","لا مهام"], 0, "Tasks صغيرة + تأخير صحيح + متغيرات volatile = استقرار."]
+  ]
+},
+{
+  id: 15, title: "الكابستون — النظام الكامل", icon: "🏆", short: "مشروع التخرج",
+  qs: [
+    ["ما هو الكابستون؟", ["مشروع التخرج الشامل الذي يجمع كل ما تعلمته","مشروع بسيط","امتحان","درس جديد"], 0, "الكابستون = مشروع نهائي يجمع كل المهارات في نظام واحد."],
+    ["كم Task يستخدم نظام حارس الغرفة الكامل؟", ["1","2","4 (Sensor + Control + Cloud + Display)","10"], 2, "تقسيم ذكي = استقرار + صيانة أسهل."],
+    ["لماذا Control Task له أعلى Priority؟", ["يدير الباب والإنذار — يجب أن يستجيب فوراً","أطول كود","أرخص","لا داعي"], 0, "المهام الحرجة (الأمان) أعلى أولوية."],
+    ["أي Core عادة يُخصص للـ Sensor + Cloud؟", ["Core 0 (بجانب WiFi)","Core 1","كلاهما","لا فرق"], 0, "Core 0 مشغول بالشبكة — مناسب لمهام الحساسات والسحابة."],
+    ["أي Core عادة يُخصص لـ Control + Display؟", ["Core 0","Core 1 (مهام حرجة)","كلاهما","لا فرق"], 1, "Core 1 حر — مثالي للمهام الحساسة للوقت."],
+    ["ما التيار التقريبي للنظام الكامل مع 16 Neopixel؟", ["100 mA","500 mA","حوالي 1.4 A","10 A"], 2, "ESP32 (250) + Neopixel (960) + حساسات (150) + Buzzer (30) ≈ 1.4A."],
+    ["لماذا نستخدم مصدر 5V/3A خارجي؟", ["USB يوفر 500mA فقط — غير كافٍ","أرخص","أسرع","لا داعي"], 0, "التيار الكلي > USB → مصدر خارجي ضروري للاستقرار."],
+    ["ماذا يحدث لو انقطع WiFi أثناء العمل؟", ["النظام يستمر محلياً (PIR + Buzzer + OLED)","يتوقف تماماً","يحترق","لا شيء"], 0, "الوظائف المحلية تعمل دائماً — Cloud Task يحاول إعادة الاتصال."],
+    ["لماذا نقسم الكود إلى ملفات منفصلة؟", ["لتنظيم الكود وسهولة الصيانة","لأن Arduino يفرض","لتسريع","لا داعي"], 0, "كل ملف = مسؤولية واحدة — أسهل في القراءة والتعديل."],
+    ["ما وظيفة secrets.h؟", ["تخزين كلمات السر وAuth Token بعيداً عن الكود المشترك","إخفاء الكود","تسريع","لا شيء"], 0, "الملف السري لا يُرفع على Git — يحمي أمان النظام."],
+    ["ماذا يفعل setState() في Control Task؟", ["يغير حالة النظام ويحدّث كل شيء مركزياً","يطفئ","يعيد تشغيل","لا شيء"], 0, "دالة مركزية — تضمن تحديث كل شيء عند الانتقال."],
+    ["لماذا نستخدم volatile للمتغيرات المشتركة؟", ["للتأكد من قراءتها من الذاكرة مباشرة بين Tasks","للتسريع","لتوفير الطاقة","لا داعي"], 0, "بدون volatile قد يقرأ Task قيمة قديمة من register."],
+    ["ماذا يفعل xTaskCreatePinnedToCore()؟", ["ينشئ Task على نواة محددة","يحذف Task","يطفئ Core","لا شيء"], 0, "ضرورية لتوزيع المهام على النواتين."],
+    ["ما وظيفة millis() في State Machine؟", ["قياس الوقت المنقضي بين الأحداث","إطفاء","قراءة حساس","لا شيء"], 0, "millis() - stateStart = مدة البقاء في الحالة."],
+    ["لماذا نستخدم enum للحالات (IDLE, ALERT)؟", ["للوضوح وتجنب الأخطاء","للتسريع","للتوفير","لا داعي"], 0, "أسماء واضحة أفضل من 0, 1, 2, 3."],
+    ["ما وظيفة Blynk.virtualWrite() في Cloud Task؟", ["يرسل البيانات للسحابة (المستخدم)","يطفئ","يقرأ حساس","لا شيء"], 0, "لوحة تحكم المستخدم — أساس التحكم عن بُعد."],
+    ["أي مما يلي يجب أن يعمل دائماً في النظام الكامل؟", ["الوظائف المحلية (PIR, Buzzer, OLED)","Blynk فقط","WiFi فقط","لا شيء"], 0, "حتى بدون إنترنت — النظام يحمي البيت."],
+    ["ماذا يحدث عند فشل أحد الحساسات؟", ["System Log يسجل + النظام يستمر بباقي الحساسات","يتوقف كل شيء","يحترق","لا شيء"], 0, "Robustness — نظام احترافي لا يعتمد على حساس واحد."],
+    ["لماذا نستخدم Tasks بدلاً من loop() في الكابستون؟", ["توازي حقيقي + استغلال النواتين","أبطأ","أرخص","لا داعي"], 0, "المهام المتوازية أساس الأنظمة الاحترافية."],
+    ["ماذا نضع في Display Task؟", ["تحديث OLED + Neopixel فقط","كل شيء","لا شيء","الإنذار"], 0, "فصل مسؤولية العرض = كود أنظف + استجابة أفضل."],
+    ["كيف نحافظ على النظام بعد إعادة التشغيل؟", ["auto reconnect + استعادة الحالة","لا شيء","يدوياً","لا يمكن"], 0, "نظام Robust — يعيد الاتصال تلقائياً بعد انقطاع الكهرباء."],
+    ["أي مما يلي مهم في الكابستون؟", ["الأمان (secrets.h + تشفير)","الجمال","الحجم","لا شيء"], 0, "الأمان أولاً — خصوصاً للتحكم في الأبواب."],
+    ["ماذا نستخدم لمراقبة النظام أثناء التطوير؟", ["Serial Monitor + Event Log","لا شيء","WiFi فقط","لا داعي"], 0, "Debugging أساسي — يوفّر ساعات من التصحيح."],
+    ["لماذا نقسم النظام إلى 4 Tasks بدلاً من واحدة؟", ["سهولة الصيانة + استغلال النواتين + استجابة أفضل","أبطأ","أرخص","لا داعي"], 0, "Separation of Concerns — مبدأ احترافي أساسي."],
+    ["ماذا يفعل Watchdog Timer في ESP32؟", ["يعيد التشغيل لو توقفت Tasks عن الاستجابة","يطفئ","يزيد السرعة","لا شيء"], 0, "Watchdog = حارس — يمنع تعليق النظام للأبد."],
+    ["أي مما يلي مشروع كامل لـ الكابستون؟", ["حارس غرفة يجمع كل المكونات","مصباح فقط","حساس فقط","لا شيء"], 0, "الكابستون = جمع كل المهارات في نظام واحد متكامل."],
+    ["ما الفرق بين الكابستون ومشروع L3-07 (حارس الغرفة الأول)؟", ["الكابستون أشمل — يضيف Cloud + Tasks + مكونات أكثر","لا فرق","الأول أصعب","لا شيء"], 0, "الكابستون = نسخة كاملة احترافية — يشمل كل ما تعلمته."],
+    ["كيف نستعرض الكابستون في Demo Day؟", ["عرض حي + شرح + Q&A","فقط الكود","فقط الصور","لا شيء"], 0, "Demo Day = احتفال + عرض إنجاز + إقناع اللجنة."],
+    ["ماذا نضع في README للمشروع؟", ["شرح المشروع + المكونات + طريقة التشغيل","لا شيء","الكود فقط","صور فقط"], 0, "README = وثيقة المشروع — للاستخدام المستقبلي والمشاركة."],
+    ["أي مما يلي أساسي في Demo Day؟", ["اختبار مسبق + فيديو احتياطي + إجابة الأسئلة","لا شيء","الكود فقط","الحماس فقط"], 0, "التحضير الجيد = نجاح العرض — الاستعداد للتحديات التقنية."],
+    ["ما التالي بعد الكابستون؟", ["Demo Day — عرض نهائي + شهادة","البدء من جديد","الانتقال لمستوى أعلى","لا شيء"], 0, "Demo Day احتفال + شهادة \"مهندس ESP32 IoT\"."],
+    ["ماذا يمثل الكابستون في رحلتك؟", ["بداية — تطبيق كل ما تعلمته في العالم الحقيقي","نهاية الرحلة","لا شيء","امتحان"], 0, "من هنا تبدأ — كل ما تعلمته يساعدك في مشاريع أكبر."]
+  ]
+}
+];
+
+/* ═══════════════════════════════════════════════════
+   STATE MANAGEMENT
+   ═══════════════════════════════════════════════════ */
+let studentName = "";
+let currentLesson = null;
+let currentQIndex = 0;
+let userAnswers = [];
+let startTime = null;
+
+/* ═══════════════════════════════════════════════════
+   SCREEN NAVIGATION
+   ═══════════════════════════════════════════════════ */
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+/* ═══════════════════════════════════════════════════
+   WELCOME → LESSONS
+   ═══════════════════════════════════════════════════ */
+function goToLessons(){
+  const name = document.getElementById('studentName').value.trim();
+  if(!name){ alert('⚠️ من فضلك اكتب اسمك أولاً'); return; }
+  if(name.length < 2){ alert('⚠️ الاسم قصير جداً'); return; }
+  studentName = name;
+  document.getElementById('lessonsStudentName').textContent = studentName;
+  renderLessons();
+  showScreen('screen-lessons');
+}
+
+function renderLessons(){
+  const grid = document.getElementById('lessonsGrid');
+  grid.innerHTML = LESSONS.map(l=>`
+    <div class="lesson-card" onclick="startLesson(${l.id})">
+      <span class="lesson-num">المحاضرة ${String(l.id).padStart(2,'0')}</span>
+      <span class="lesson-icon">${l.icon}</span>
+      <div class="lesson-title">${l.title}</div>
+      <div class="lesson-meta">${l.short}</div>
+      <div class="lesson-meta" style="margin-top:6px;color:var(--sun2)">📝 30 سؤالاً</div>
+    </div>
+  `).join('');
+}
+
+/* ═══════════════════════════════════════════════════
+   START LESSON
+   ═══════════════════════════════════════════════════ */
+function startLesson(lessonId){
+  currentLesson = LESSONS.find(l=>l.id === lessonId);
+  if(!currentLesson) return;
+  currentQIndex = 0;
+  userAnswers = new Array(currentLesson.qs.length).fill(null);
+  startTime = Date.now();
+
+  document.getElementById('quizStudentName').textContent = '👤 ' + studentName;
+  document.getElementById('quizLessonName').textContent = currentLesson.icon + ' ' + currentLesson.title;
+  renderQuestion();
+  showScreen('screen-quiz');
+}
+
+/* ═══════════════════════════════════════════════════
+   RENDER QUESTION
+   ═══════════════════════════════════════════════════ */
+function renderQuestion(){
+  const q = currentLesson.qs[currentQIndex];
+  const total = currentLesson.qs.length;
+  const letters = ['أ','ب','ج','د'];
+
+  // Progress
+  document.getElementById('quizProgress').textContent = `${currentQIndex + 1} / ${total}`;
+  document.getElementById('quizProgressFill').style.width = `${((currentQIndex + 1) / total) * 100}%`;
+
+  // Question
+  const area = document.getElementById('questionArea');
+  area.innerHTML = `
+    <div class="question-card">
+      <div>
+        <span class="q-num">${currentQIndex + 1}</span>
+        <span class="q-topic">${currentLesson.title}</span>
+      </div>
+      <p class="q-text">${q[0]}</p>
+      <div class="options">
+        ${q[1].map((opt, i)=>`
+          <div class="option ${userAnswers[currentQIndex] === i ? 'selected' : ''}" onclick="selectOption(${i})">
+            <span class="option-letter">${letters[i]}</span>
+            <span>${opt}</span>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+
+  // Nav buttons
+  document.getElementById('prevBtn').disabled = currentQIndex === 0;
+  const nextBtn = document.getElementById('nextBtn');
+  if(currentQIndex === total - 1){
+    nextBtn.textContent = '🏁 إظهار النتيجة';
+    nextBtn.style.background = 'linear-gradient(135deg,var(--ok),#059669)';
+    nextBtn.style.color = 'white';
+  } else {
+    nextBtn.textContent = 'التالي ←';
+    nextBtn.style.background = '';
+    nextBtn.style.color = '';
+  }
+}
+
+function selectOption(idx){
+  userAnswers[currentQIndex] = idx;
+  renderQuestion();
+}
+
+function prevQuestion(){
+  if(currentQIndex > 0){
+    currentQIndex--;
+    renderQuestion();
+  }
+}
+
+function nextQuestion(){
+  if(userAnswers[currentQIndex] === null){
+    if(!confirm('لم تختر إجابة. هل تريد المتابعة بدون إجابة؟')) return;
+  }
+  if(currentQIndex < currentLesson.qs.length - 1){
+    currentQIndex++;
+    renderQuestion();
+  } else {
+    if(confirm('🎯 هل أنت جاهز لرؤية النتيجة؟')){
+      showResults();
+    }
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   RESULTS SCREEN
+   ═══════════════════════════════════════════════════ */
+function showResults(){
+  const total = currentLesson.qs.length;
+  let ok = 0, bad = 0, none = 0;
+
+  currentLesson.qs.forEach((q, i)=>{
+    if(userAnswers[i] === null) none++;
+    else if(userAnswers[i] === q[2]) ok++;
+    else bad++;
+  });
+
+  const duration = Math.round((Date.now() - startTime) / 1000);
+  const mins = Math.floor(duration / 60);
+  const secs = duration % 60;
+
+  const scorePct = Math.round((ok / total) * 100);
+  let grade = '', gradeEmoji = '';
+  if(scorePct >= 90){ grade = 'ممتاز — أنت مهندس حقيقي!'; gradeEmoji = '🏆'; }
+  else if(scorePct >= 80){ grade = 'جيد جداً — أداء رائع'; gradeEmoji = '🌟'; }
+  else if(scorePct >= 70){ grade = 'جيد — استمر في التقدم'; gradeEmoji = '👍'; }
+  else if(scorePct >= 60){ grade = 'ناجح — راجع النقاط الضعيفة'; gradeEmoji = '✅'; }
+  else { grade = 'يحتاج مراجعة — لا تستسلم!'; gradeEmoji = '📚'; }
+
+  const letters = ['أ','ب','ج','د'];
+
+  const html = `
+    <div class="result-hero">
+      <div class="result-hero-inner">
+        <div style="font-size:2.5rem">🔆</div>
+        <div class="result-student">${studentName}</div>
+        <div class="result-lesson">${currentLesson.icon} ${currentLesson.title}</div>
+        <div class="score-ring">
+          <div class="score-num">${ok}</div>
+          <div class="score-total">من ${total}</div>
+        </div>
+        <div class="result-grade">${gradeEmoji} ${grade}</div>
+        <div class="result-stats">
+          <div class="stat-badge ok">✅ صحيح: ${ok}</div>
+          <div class="stat-badge bad">❌ خطأ: ${bad}</div>
+          <div class="stat-badge none">⬜ متروك: ${none}</div>
+        </div>
+        <div style="margin-top:16px;font-size:.85rem;opacity:.85;font-weight:800">
+          ⏱️ الوقت: ${mins} دقيقة و ${secs} ثانية • 📊 النسبة: ${scorePct}%
+        </div>
+      </div>
+    </div>
+
+    <div class="result-actions no-print">
+      <button class="btn btn-primary" onclick="window.print()" style="max-width:220px">🖨️ طباعة / PDF</button>
+      <button class="btn btn-sky" onclick="showScreen('screen-lessons')" style="max-width:220px">📚 محاضرة أخرى</button>
+      <button class="btn btn-ghost" onclick="location.reload()" style="max-width:180px">🔄 من جديد</button>
+    </div>
+
+    <div class="review-header">
+      <h2>📖 مراجعة الإجابات الكاملة</h2>
+      <p>راجع كل سؤال — الإجابة الصحيحة والشرح</p>
+    </div>
+
+    <div class="review-list">
+      ${currentLesson.qs.map((q, i)=>{
+        const ua = userAnswers[i];
+        const isCorrect = ua === q[2];
+        const statusClass = ua === null ? 'none' : isCorrect ? 'ok' : 'bad';
+        const statusText = ua === null ? '⬜ متروك' : isCorrect ? '✅ صحيح' : '❌ خطأ';
+        return `
+          <div class="review-card ${statusClass}">
+            <div class="review-q-head">
+              <span class="review-q-num">السؤال ${i + 1}</span>
+              <span class="review-q-topic">${currentLesson.title}</span>
+              <span class="review-badge ${statusClass}">${statusText}</span>
+            </div>
+            <div class="review-q-text">${q[0]}</div>
+            ${q[1].map((opt, j)=>{
+              const isCorrectOpt = j === q[2];
+              const isUserChoice = j === ua;
+              let cls = 'review-opt';
+              if(isCorrectOpt) cls += ' correct';
+              else if(isUserChoice) cls += ' wrong';
+              let suffix = '';
+              if(isCorrectOpt && isUserChoice) suffix = ' ✅ (إجابتك — صحيحة)';
+              else if(isCorrectOpt) suffix = ' ✅ (الإجابة الصحيحة)';
+              else if(isUserChoice) suffix = ' ❌ (إجابتك — خاطئة)';
+              return `<div class="${cls}">${letters[j]}) ${opt}${suffix}</div>`;
+            }).join('')}
+            <div class="review-explanation">
+              <b>💡 الشرح:</b> ${q[3]}
+            </div>
+          </div>
+        `;
+      }).join('')}
+    </div>
+
+    <div style="text-align:center;padding:20px;color:var(--muted);font-size:.9rem;margin-bottom:40px">
+      <div style="font-size:1.5rem;margin-bottom:8px">🔆</div>
+      <b>Sunshine T Academy</b> — بنحول الحلم لكود
+    </div>
+  `;
+
+  document.getElementById('resultsContainer').innerHTML = html;
+  showScreen('screen-results');
+}
+
+/* ═══════════════════════════════════════════════════
+   INIT
+   ═══════════════════════════════════════════════════ */
+document.addEventListener('keydown', (e)=>{
+  if(document.getElementById('screen-quiz').classList.contains('active')){
+    if(e.key === 'ArrowLeft') nextQuestion();
+    else if(e.key === 'ArrowRight') prevQuestion();
+    else if(e.key >= '1' && e.key <= '4') selectOption(parseInt(e.key) - 1);
+  }
+});
+
+document.getElementById('studentName').addEventListener('keypress', (e)=>{
+  if(e.key === 'Enter') goToLessons();
+});
+</script>
+</body>
+</html>
